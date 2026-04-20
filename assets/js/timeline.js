@@ -114,6 +114,9 @@ function filterTimeline(period) {
         return numPatterns.some(pattern => p.includes(pattern));
     });
 
+    // Ordenar por fecha
+    filtered.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+
     renderTimelineByPeriod(filtered, 'timeline-container');
 }
 
