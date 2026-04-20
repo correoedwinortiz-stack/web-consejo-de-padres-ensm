@@ -1,0 +1,295 @@
+/**
+ * sheets.js - Google Sheets data fetcher
+ * Lee datos desde Google Sheets publicado como CSV publico
+ */
+
+const SHEETS_ID = '1AxVIB1Kp8SK1Yvw356Pl3GjvzOIkq0g1kng_8YmnA2s';
+
+const BASE_URL = `https://docs.google.com/spreadsheets/d/${SHEETS_ID}/gviz/tq?tqx=out:csv&sheet=`;
+
+/**
+ * Obtiene datos de una pestana del Sheets
+ * @param {string} sheetName - Nombre de la pestana
+ * @returns {Promise<Array>} Array de objetos con los datos
+ */
+async function getSheetData(sheetName) {
+    try {
+        const response = await fetch(BASE_URL + encodeURIComponent(sheetName));
+
+        if (!response.ok) {
+            throw new Error(`HTTP error: ${response.status}`);
+        }
+
+        const csvText = await response.text();
+        return parseCSV(csvText);
+    } catch (error) {
+        console.error(`Error cargando ${sheetName}:`, error);
+        return [];
+    }
+}
+
+/**
+ * Parsea texto CSV a array de objetos
+ * @param {string} csvText - Contenido CSV
+ * @returns {Array} Array de objetos
+ */
+function parseCSV(csvText) {
+    const lines = csvText.split('\n').filter(line => line.trim() !== '');
+
+    if (lines.length === 0) return [];
+
+    // Extraer headers de la primera linea (formato: "clave1","clave2",...)
+    const headerMatch = lines[0].match(/(".*?"|[^,]+)(?:,(".*?"|[^,]+))*$/);
+    if (!headerMatch) return [];
+
+    const headers = parseCSVLine(headerMatch[0]);
+
+    // Parsear filas de datos
+    const data = [];
+    for (let i = 1; i < lines.length; i++) {
+        const values = parseCSVLine(lines[i]);
+        if (values.length === headers.length) {
+            const row = {};
+            headers.forEach((header, index) => {
+                // Limpiar comillas y espacios
+                row[header] = values[index].replace(/^"|"$/g, '').trim();
+            });
+            data.push(row);
+        }
+    }
+
+    return data;
+}
+
+/**
+ * Parsea una linea CSV manejando comillas
+ * @param {string} line - Linea CSV
+ * @returns {Array} Array de valores
+ */
+function parseCSVLine(line) {
+    const result = [];
+    let current = '';
+    let inQuotes = false;
+
+    for (let i = 0; i < line.length; i++) {
+        const char = line[i];
+
+        if (char === '"') {
+            inQuotes = !inQuotes;
+        } else if (char === ',' && !inQuotes) {
+            result.push(current);
+            current = '';
+        } else {
+            current += char;
+        }
+    }
+    result.push(current);
+
+    return result;
+}
+
+/**
+ * Obtiene una fila de config por clave
+ * @param {string} clave - Clave a buscar
+ * @returns {string|null} Valor o null
+ */
+async function getConfig(clave) {
+    const data = await getSheetData('config');
+    const row = data.find(item => item.clave === clave);
+    return row ? row.valor : null;
+}
+
+/**
+ * Obtiene actividades filtradas
+ * @param {Object} filtros - Objeto con filtros { destacado, estado, categoria }
+ * @returns {Promise<Array>}
+ */
+async function getActividades(filtros = {}) {
+    let data = await getSheetData('actividades');
+    console.log('[Sheets] getActividades - datos crudos:', data);
+    console.log('[Sheets] Columnas disponibles:', data.length > 0 ? Object.keys(data[0]) : 'vacio');
+
+    // Filtrar solo fechas futuras o de hoy
+    if (filtros.soloFuturas !== false) {
+        const today = new Date().toISOString().split('T')[0];
+        data = data.filter(item => item.fecha >= today);
+    }
+
+    if (filtros.visible) {
+        data = data.filter(item => item.visible === filtros.visible);
+        console.log('[Sheets] getActividades - filtrado por visible, resultado:', data);
+    }
+    if (filtros.destacado) {
+        data = data.filter(item => item.destacado === 'si');
+    }
+    if (filtros.estado) {
+        data = data.filter(item => item.estado === filtros.estado);
+        console.log('[Sheets] getActividades - filtrado por estado="' + filtros.estado + '", resultado:', data);
+    }
+    if (filtros.categoria) {
+        data = data.filter(item => item.categoria === filtros.categoria);
+    }
+
+    return data;
+}
+
+/**
+ * Obtiene comunicados visibles
+ * @param {boolean} soloDestacados - Solo destacados
+ * @returns {Promise<Array>}
+ */
+async function getComunicados(soloDestacados = false) {
+    let data = await getSheetData('comunicados');
+    data = data.filter(item => item.visible === 'si');
+
+    if (soloDestacados) {
+        data = data.filter(item => item.destacado === 'si');
+    }
+
+    return data.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+}
+
+/**
+ * Obtiene todas las campañas
+ * @returns {Promise<Array>}
+ */
+async function getCampanas() {
+    let data = await getSheetData('campanas');
+    return data.filter(item => item.visible === 'si').sort((a, b) => parseInt(a.orden || 0) - parseInt(b.orden || 0));
+}
+
+/**
+ * Obtiene recursos por categoria
+ * @param {string} categoria - Categoria (opcional)
+ * @returns {Promise<Array>}
+ */
+async function getRecursos(categoria = null) {
+    let data = await getSheetData('recursos');
+    data = data.filter(item => item.visible === 'si');
+
+    if (categoria) {
+        data = data.filter(item => item.categoria === categoria);
+    }
+
+    return data.sort((a, b) => parseInt(a.orden || 0) - parseInt(b.orden || 0));
+}
+
+/**
+ * Obtiene videos por campana
+ * @param {string} campana - Nombre de campana
+ * @returns {Promise<Array>}
+ */
+async function getVideos(campana = null) {
+    let data = await getSheetData('videos');
+    data = data.filter(item => item.visible === 'si');
+
+    if (campana) {
+        data = data.filter(item => item.campana === campana);
+    }
+
+    return data.sort((a, b) => parseInt(a.orden || 0) - parseInt(b.orden || 0));
+}
+
+/**
+ * Obtiene juegos por campana
+ * @param {string} campana - Nombre de campana
+ * @returns {Promise<Array>}
+ */
+async function getJuegos(campana = null) {
+    let data = await getSheetData('juegos');
+    data = data.filter(item => item.visible === 'si');
+
+    if (campana) {
+        data = data.filter(item => item.campana === campana);
+    }
+
+    return data.sort((a, b) => parseInt(a.orden || 0) - parseInt(b.orden || 0));
+}
+
+/**
+ * Obtiene temas del manual
+ * @param {Object} filtros - Filtros opcionales { categoria, visible }
+ * @returns {Promise<Array>}
+ */
+async function getTemasManual(filtros = {}) {
+    let data = await getSheetData('temas_manual');
+    console.log('[Sheets] getTemasManual - datos crudos:', data);
+    console.log('[Sheets] getTemasManual - columnas:', data.length > 0 ? Object.keys(data[0]) : 'vacio');
+
+    if (filtros.categoria) {
+        data = data.filter(item => item.categoria === filtros.categoria);
+    }
+    if (filtros.visible !== undefined) {
+        data = data.filter(item => item.visible === filtros.visible);
+        console.log('[Sheets] getTemasManual - filtrado por visible="' + filtros.visible + '", resultado:', data);
+    }
+
+    return data.sort((a, b) => parseInt(a.orden || 0) - parseInt(b.orden || 0));
+}
+
+/**
+ * Obtiene bloques de un tema
+ * @param {string} temaId - ID del tema
+ * @returns {Promise<Array>}
+ */
+async function getBloquesManual(temaId) {
+    let data = await getSheetData('bloques_manual');
+    data = data.filter(item => item.tema_id === temaId && item.visible === 'si');
+
+    return data.sort((a, b) => parseInt(a.orden || 0) - parseInt(b.orden || 0));
+}
+
+/**
+ * Obtiene tema por slug
+ * @param {string} slug - Slug del tema
+ * @returns {Promise<Object|null>}
+ */
+async function getTemaBySlug(slug) {
+    const data = await getSheetData('temas_manual');
+    return data.find(item => item.slug === slug) || null;
+}
+
+/**
+ * Obtiene una campana por ID
+ * @param {string} idCampana - ID de la campana (ej: cam-001)
+ * @returns {Promise<Object|null>}
+ */
+async function getCampanaById(idCampana) {
+    const data = await getSheetData('campanas');
+    console.log('[Sheets] getCampanaById - id:', idCampana, 'datos:', data);
+    return data.find(item => item.id === idCampana && item.visible === 'si') || null;
+}
+
+/**
+ * Obtiene videos de una campana
+ * @param {string} idCampana - ID de la campana
+ * @returns {Promise<Array>}
+ */
+async function getVideosCampana(idCampana) {
+    let data = await getSheetData('videos');
+    data = data.filter(item => item.campana === idCampana && item.visible === 'si');
+    return data.sort((a, b) => parseInt(a.orden || 0) - parseInt(b.orden || 0));
+}
+
+/**
+ * Obtiene juegos de una campana
+ * @param {string} idCampana - ID de la campana
+ * @returns {Promise<Array>}
+ */
+async function getJuegosCampana(idCampana) {
+    let data = await getSheetData('juegos');
+    data = data.filter(item => item.campana === idCampana && item.visible === 'si');
+    return data.sort((a, b) => parseInt(a.orden || 0) - parseInt(b.orden || 0));
+}
+
+/**
+ * Obtiene recursos de una campana
+ * @param {string} idCampana - ID de la campana
+ * @returns {Promise<Array>}
+ */
+async function getRecursosCampana(idCampana) {
+    let data = await getSheetData('recursos');
+    // Recursos filtran por categoria (campana, plan, comunicado, etc)
+    data = data.filter(item => item.categoria === idCampana && item.visible === 'si');
+    return data.sort((a, b) => parseInt(a.orden || 0) - parseInt(b.orden || 0));
+}

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tema del Manual de Convivencia">
+    <title>Tema - Manual de Convivencia</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e3a5f',
+                        secondary: '#2d7d5a',
+                        accent: '#f5a623',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        serif: ['Playfair Display', 'Georgia', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+
+<body class="bg-white">
+
+    <!-- Top bar -->
+    <div class="top-bar py-2">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap justify-between items-center gap-2">
+            <div class="flex items-center gap-4">
+                <a href="mailto:consejopadres@edu.gov.co" class="flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                        </path>
+                    </svg>
+                    consejopadres.ensm@gmail.com
+
+                </a>
+                <span class="hidden sm:inline">Monterrey, Casanare</span>
+            </div>
+            <span class="font-medium">Ano lectivo 2026</span>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav id="navbar" class="sticky top-0 z-50 bg-white border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <a href="../index.html" class="navbar-brand flex items-center gap-2">
+                    <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
+                        </path>
+                    </svg>
+                    Consejo de Padres ENSM
+                </a>
+
+                <div class="hidden md:flex items-center gap-1">
+                    <a href="../index.html" class="nav-link">Inicio</a>
+                    <a href="../index.html#nosotros" class="nav-link">Nosotros</a>
+                    <a href="../index.html#funciones" class="nav-link">Funciones</a>
+                    <a href="../campana.html" class="nav-link">Campana</a>
+                    <a href="index.html" class="nav-link text-primary font-semibold">Manual</a>
+                    <a href="../index.html#contacto" class="nav-link">Contacto</a>
+                </div>
+
+                <button id="menu-toggle" class="md:hidden p-2 rounded-lg hover:bg-gray-100">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden border-t border-gray-100">
+            <div class="px-4 py-3 space-y-2">
+                <a href="../index.html" class="block py-2 px-3 rounded-lg hover:bg-gray-50">Inicio</a>
+                <a href="../index.html#nosotros" class="block py-2 px-3 rounded-lg hover:bg-gray-50">Nosotros</a>
+                <a href="../index.html#funciones" class="block py-2 px-3 rounded-lg hover:bg-gray-50">Funciones</a>
+                <a href="../campana.html" class="block py-2 px-3 rounded-lg hover:bg-gray-50">Campana</a>
+                <a href="index.html" class="block py-2 px-3 rounded-lg bg-gray-50">Manual</a>
+                <a href="../index.html#contacto" class="block py-2 px-3 rounded-lg hover:bg-gray-50">Contacto</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb y boton volver -->
+    <section class="py-4 bg-light border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex items-center gap-2 text-sm">
+                <a href="index.html" class="text-primary hover:underline flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
+                        </path>
+                    </svg>
+                    Volver al Manual
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contenido del tema -->
+    <section class="py-12 md:py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div id="tema-content" class="max-w-3xl mx-auto">
+                <!-- Cargado dinamicamente -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer py-12 mt-auto">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <h4 class="font-serif text-xl font-bold mb-4">Consejo de Padres de Familia ENSM</h4>
+                    <p class="text-blue-100 text-sm">
+                        Trabajando juntos por una educacion de calidad y una convivencia armonica.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Enlaces rapidos</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="../index.html">Inicio</a></li>
+                        <li><a href="../index.html#funciones">Funciones</a></li>
+                        <li><a href="../campana.html">Campana de Convivencia</a></li>
+                        <li><a href="index.html">Manual de Convivencia</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Ano lectivo 2026</h4>
+                    <p class="text-blue-100 text-sm">
+                        Monterrey, Casanare<br>
+                        Colombia
+                    </p>
+                </div>
+            </div>
+            <div class="border-t border-blue-800 pt-8 text-center text-sm text-blue-200">
+                <p>&copy; 2026 Consejo de Padres de Familia ENSM. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button id="scroll-top" class="scroll-top-btn opacity-0 pointer-events-none">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
+    </button>
+
+    <script src="../assets/js/sheets.js"></script>
+    <script src="../assets/js/main.js"></script>
+</body>
+
+</html>

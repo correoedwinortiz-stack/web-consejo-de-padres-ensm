@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Consejo de Padres de Familia ENSM - Construyendo comunidad educativa juntos. Monterrey, Casanare, Colombia.">
+    <title>Consejo de Padres de Familia ENSM- Monterrey, Casanare</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e3a5f',
+                        secondary: '#2d7d5a',
+                        accent: '#f5a623',
+                        orange: '#e8792f',
+                        light: '#f8f9fa',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        serif: ['Playfair Display', 'Georgia', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body class="bg-white">
+
+    <!-- Top bar -->
+    <div class="top-bar py-2">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap justify-between items-center gap-2">
+            <div class="flex items-center gap-4">
+                <a href="mailto:consejopadres@edu.gov.co" id="top-correo" class="flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                        </path>
+                    </svg>
+                    consejopadres.ensm@gmail.com
+
+                </a>
+                <span id="top-direccion" class="hidden sm:inline">Monterrey, Casanare</span>
+            </div>
+            <span class="font-medium">Año lectivo 2026</span>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav id="navbar" class="sticky top-0 z-50 bg-white border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <a href="index.html" class="navbar-brand flex items-center gap-2">
+                    <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
+                        </path>
+                    </svg>
+                    Consejo de Padres ENSM
+                </a>
+
+                <!-- Desktop menu -->
+                <div class="hidden md:flex items-center gap-1">
+                    <a href="#inicio" class="nav-link">Inicio</a>
+                    <a href="#nosotros" class="nav-link">Nosotros</a>
+                    <a href="#funciones" class="nav-link">Funciones</a>
+                    <a href="#actividades" class="nav-link">Actividades</a>
+                    <a href="#comunicados" class="nav-link">Comunicados</a>
+                    <a href="campana.html" class="nav-link">Campañas</a>
+                    <a href="manual/index.html" class="nav-link">Manual</a>
+                    <a href="#contacto" class="nav-link">Contacto</a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <button id="menu-toggle" class="md:hidden p-2 rounded-lg hover:bg-gray-100">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-gray-100">
+            <div class="px-4 py-3 space-y-2">
+                <a href="#inicio" class="block py-2 px-3 rounded-lg hover:bg-gray-50">Inicio</a>
+                <a href="#nosotros" class="block py-2 px-3 rounded-lg hover:bg-gray-50">Nosotros</a>
+                <a href="#funciones" class="block py-2 px-3 rounded-lg hover:bg-gray-50">Funciones</a>
+                <a href="#actividades" class="block py-2 px-3 rounded-lg hover:bg-gray-50">Actividades</a>
+                <a href="#comunicados" class="block py-2 px-3 rounded-lg hover:bg-gray-50">Comunicados</a>
+                <a href="campana.html" class="block py-2 px-3 rounded-lg hover:bg-gray-50">Campañas</a>
+                <a href="manual/index.html" class="block py-2 px-3 rounded-lg hover:bg-gray-50">Manual</a>
+                <a href="#contacto" class="block py-2 px-3 rounded-lg hover:bg-gray-50">Contacto</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section id="inicio" class="hero-new relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 py-16 md:py-24">
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <!-- Columna izquierda -->
+                <div class="hero-left order-2 md:order-1">
+                    <!-- Badge superior -->
+                    <div
+                        class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
+                        <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                        <span class="text-white text-sm font-medium">Construyendo juntos la educacion</span>
+                    </div>
+
+                    <!-- Titulo -->
+                    <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl font-bold mb-2">
+                        <span class="text-white">Consejo de Padres</span><br>
+                        <span class="text-[#e8792f]">de Familia ENSM</span>
+                    </h1>
+
+                    <!-- Subtitulo -->
+                    <p class="text-xl text-white/80 mb-4">Escuela Normal Superior de Monterrey</p>
+
+                    <!-- Parrafo -->
+                    <p class="text-white/70 mb-8 max-w-lg">
+                        Participamos activamente en la construccion de un ambiente escolar
+                        de respeto, inclusion y excelenia educativa para todos nuestros estudiantes.
+                    </p>
+
+                    <!-- Botones -->
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#funciones"
+                            class="inline-flex items-center gap-2 bg-[#e8792f] hover:bg-[#d66a20] text-white font-semibold px-6 py-3 rounded-lg transition-colors">
+                            Nuestras Funciones
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                            </svg>
+                        </a>
+                        <a href="#contacto"
+                            class="inline-flex items-center gap-2 border-2 border-white text-white font-semibold px-6 py-3 rounded-lg hover:bg-white hover:text-[#1e3a5f] transition-colors">
+                            Contactar
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Columna derecha (solo desktop) -->
+                <div class="hero-right order-1 md:order-2 relative hidden md:block h-80">
+                    <!-- Circulos concentriccos -->
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <div class="hero-circle-new hero-circle-1"></div>
+                        <div class="hero-circle-new hero-circle-2"></div>
+                        <div class="hero-circle-new hero-circle-3"></div>
+                        <!-- Icono centro -->
+                        <div class="absolute z-10">
+                            <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Badges flotantes -->
+                    <div class="absolute top-0 right-0 bg-white/30 backdrop-blur-sm rounded-lg px-3 py-2 text-sm text-white font-medium animate-bounce"
+                        style="animation-duration: 3s;">
+                        Educacion de Calidad
+                    </div>
+                    <div class="absolute top-1/2 right-0 bg-[#e8792f] rounded-lg px-3 py-2 text-sm text-white font-medium animate-bounce"
+                        style="animation-duration: 3.5s;">
+                        Acompanamiento
+                    </div>
+                    <div class="absolute bottom-0 left-0 bg-white/30 backdrop-blur-sm rounded-lg px-3 py-2 text-sm text-white font-medium animate-bounce"
+                        style="animation-duration: 4s;">
+                        Participacion Activa
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ola SVG inferior -->
+        <div class="absolute bottom-0 left-0 right-0">
+            <svg viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"
+                class="w-full h-16 md:h-24">
+                <path
+                    d="M0 50L48 45.7C96 41.3 192 32.7 288 29.3C384 26 480 28 576 34.7C672 41.3 768 52.7 864 54.3C960 55.7 1056 47.7 1152 41.3C1248 35 1344 30.7 1392 28.3L1440 26V100H0L0 50Z"
+                    fill="#faf9f6" />
+            </svg>
+        </div>
+    </section>
+
+    <!-- Quienes somos -->
+    <section id="nosotros" class="py-16 md:py-24 bg-light">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="section-title">Quienes Somos</h2>
+                <p class="text-gray-600 max-w-3xl mx-auto">
+                    El Consejo de Padres de Familia es un organo de participacion ciudadana constituido por padres,
+                    madres y cuidadores de los estudiantes de la institucion educativa, travaillantogether para
+                    fortalecer la convivencia, la participacion y el bienestar de toda la comunidad escolar.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Mision -->
+                <div class="bg-white rounded-xl shadow-md p-8 text-center">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
+                        <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-primary">Mision</h3>
+                    <p class="text-gray-600">
+                        Promover la participacion activa de las familias en la vida escolar, contribuyen al
+                        mejoramiento de la calidad educativa y la convivencia armonica en la institucion.
+                    </p>
+                </div>
+
+                <!-- Vision -->
+                <div class="bg-white rounded-xl shadow-md p-8 text-center">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-secondary/10 rounded-full flex items-center justify-center">
+                        <svg class="w-8 h-8 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-secondary">Vision</h3>
+                    <p class="text-gray-600">
+                        Ser un Consejo reconocido por su compromiso con la excelencia educativa, la inclusion y
+                        el desarrollo integral de todos los estudiantes de la comunidad.
+                    </p>
+                </div>
+
+                <!-- Valores -->
+                <div class="bg-white rounded-xl shadow-md p-8 text-center">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-accent/10 rounded-full flex items-center justify-center">
+                        <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-accent">Valores</h3>
+                    <p class="text-gray-600">
+                        Respeto, dialogo, inclusion, responsabilidad, transparencia y compromiso con el
+                        bienestar de ninos, jovenes y familias.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Conformacion -->
+    <section class="py-16 md:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="section-title text-center">Conformacion del Consejo</h2>
+            <p class="text-gray-600 text-center max-w-3xl mx-auto mb-12">
+                Segun el Decreto 1286 de 2005, el Consejo de Padres esta conformado por padres, madres
+                y cuidadores elegidos democraticamente. Cada padre o madre tiene derecho a ser elegido
+                para integrar los organos del Gobierno Escolar.
+            </p>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Presidente -->
+                <div class="bg-light rounded-xl p-6 text-center">
+                    <div class="w-12 h-12 mx-auto mb-4 bg-primary rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-primary mb-2">Presidente</h3>
+                    <p class="text-sm text-gray-600">
+                        Representa al Consejo, coordina las actividades y preside las reuniones.
+                        Es el enlace entre las familias y la institucion.
+                    </p>
+                </div>
+
+                <!-- Secretario -->
+                <div class="bg-light rounded-xl p-6 text-center">
+                    <div class="w-12 h-12 mx-auto mb-4 bg-secondary rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-secondary mb-2">Secretario</h3>
+                    <p class="text-sm text-gray-600">
+                        Lleva el registro de las reuniones, mantiene la documentacion del Consejo
+                        y da cuenta de las decisiones tomadas.
+                    </p>
+                </div>
+
+                <!-- Fiscal -->
+                <div class="bg-light rounded-xl p-6 text-center">
+                    <div class="w-12 h-12 mx-auto mb-4 bg-accent rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-accent mb-2">Fiscal</h3>
+                    <p class="text-sm text-gray-600">
+                        Vigila el cumplimiento de las decisiones tomadas, la correcta inversion
+                        de recursos y la ejecucion de los planes.
+                    </p>
+                </div>
+
+                <!-- Vocales -->
+                <div class="bg-light rounded-xl p-6 text-center">
+                    <div class="w-12 h-12 mx-auto mb-4 bg-primary/70 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-primary/70 mb-2">Vocales</h3>
+                    <p class="text-sm text-gray-600">
+                        Representan a los padres de cada grado, transmiten necesidades e intereses
+                        de las familias y participan en comisiones.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Funciones del Consejo -->
+    <section id="funciones" class="py-16 md:py-24 bg-light">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="section-title text-center">Funciones del Consejo</h2>
+            <p class="text-gray-600 text-center max-w-3xl mx-auto mb-12">
+                Segun la Ley 115 de 1994 y el Decreto 1286 de 2005, el Consejo de Padres tiene
+                las siguientes funciones:
+            </p>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-primary">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-1">Participacion en planes</h4>
+                            <p class="text-sm text-gray-600">Participar en la elaboracion, ejecucion y evaluacion del
+                                Plan Anual de Mejoramiento Institucional.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-secondary">
+                    <div class="flex items-start gap-4">
+                        <div
+                            class="w-10 h-10 bg-secondary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-1">Convivencia escolar</h4>
+                            <p class="text-sm text-gray-600">Promover y acompanar procesos de formacion para la
+                                convivencia ciudadana.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-accent">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 bg-accent/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-1">Asesoria a familias</h4>
+                            <p class="text-sm text-gray-600">Brindar orientacion a las familias sobre el proceso
+                                educativo y la normativa institucional.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-primary">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-1">Proteccion de derechos</h4>
+                            <p class="text-sm text-gray-600">Proteger los derechos de los estudiantes segun la Ley 1620
+                                de 2013 y el Manual de Convivencia.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-secondary">
+                    <div class="flex items-start gap-4">
+                        <div
+                            class="w-10 h-10 bg-secondary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-1">Recursos</h4>
+                            <p class="text-sm text-gray-600">Gestionar recursos para el fortalecimiento de programas y
+                                actividades del Consejo.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-accent">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 bg-accent/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-1">Rendicion de cuentas</h4>
+                            <p class="text-sm text-gray-600">Informar periodicamente a la comunidad sobre las
+                                actividades y logros del Consejo.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Marco legal -->
+    <section class="py-16 md:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="section-title text-center">Marco Legal</h2>
+
+            <div class="max-w-3xl mx-auto">
+                <div class="space-y-4">
+                    <div class="bg-light rounded-lg p-5">
+                        <h4 class="font-semibold text-primary">Ley 115 de 1994</h4>
+                        <p class="text-sm text-gray-600 mt-1">Ley General de Educacion. Define la educacion como un
+                            proceso de formacion integral y establece la participacion de la comunidad educativa.</p>
+                    </div>
+
+                    <div class="bg-light rounded-lg p-5">
+                        <h4 class="font-semibold text-secondary">Decreto 1286 de 2005</h4>
+                        <p class="text-sm text-gray-600 mt-1">Reglamenta la participacion de los padres de familia en el
+                            proceso educativo. Define la organizacion y funcionamiento del Consejo de Padres.</p>
+                    </div>
+
+                    <div class="bg-light rounded-lg p-5">
+                        <h4 class="font-semibold text-accent">Ley 1620 de 2013</h4>
+                        <p class="text-sm text-gray-600 mt-1">Sistema Nacional de Convivencia Escolar y Formacion para
+                            el Ejercicio de los Derechos Humanos. Crea los Comites de Convivencia.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Proximas actividades -->
+    <section id="actividades" class="py-16 md:py-24 bg-light">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="section-title text-center">Proximas Actividades</h2>
+
+            <div id="actividades-container" class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Cargado dinamicamente -->
+            </div>
+
+            <div class="text-center mt-8">
+                <a href="#timeline" class="btn-secondary">Ver todas las actividades</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Linea de tiempo -->
+    <section id="timeline" class="py-16 md:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="section-title text-center">Linea de Tiempo - Año Lectivo 2026</h2>
+            <p class="text-gray-600 text-center mb-8">Nuestras actividades organizadas por periodo academico</p>
+
+            <!-- Filtros de periodo -->
+            <div class="flex flex-wrap justify-center gap-2 mb-8">
+                <button class="timeline-filter-btn active" data-period="all">Todas</button>
+                <button class="timeline-filter-btn" data-period="1">Periodo 1</button>
+                <button class="timeline-filter-btn" data-period="2">Periodo 2</button>
+                <button class="timeline-filter-btn" data-period="3">Periodo 3</button>
+                <button class="timeline-filter-btn" data-period="4">Periodo 4</button>
+            </div>
+
+            <div id="timeline-container" class="max-w-3xl mx-auto">
+                <!-- Cargado dinamicamente -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Comunicados recientes -->
+    <section id="comunicados" class="py-16 md:py-24 bg-light">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="section-title text-center">Comunicados Recientes</h2>
+
+            <div id="comunicados-container" class="grid md:grid-cols-3 gap-6">
+                <!-- Cargado dinamicamente -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Campanas activas -->
+    <section id="campanas" class="py-16 md:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="section-title text-center">Campanas del Consejo</h2>
+
+            <div id="campanas-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Cargado dinamicamente -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Temas del Manual -->
+    <section id="temas" class="py-16 md:py-24 bg-light">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="section-title text-center">Temas del Manual de Convivencia</h2>
+            <p class="text-gray-600 text-center mb-12">Consulta los temas mas relevantes para las familias</p>
+
+            <div id="temas-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Cargado dinamicamente -->
+            </div>
+
+            <div class="text-center mt-8">
+                <a href="manual/index.html" class="btn-primary">Ver todos los temas</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacto -->
+    <section id="contacto" class="py-16 md:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="section-title text-center">Contacto</h2>
+
+            <div class="grid md:grid-cols-2 gap-12">
+                <!-- Info de contacto -->
+                <div>
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div
+                                class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800">Correo electronico</h4>
+                                <a href="mailto:consejopadres.ensm@gmail.com" class="text-primary hover:underline">
+                                    consejopadres.ensm@gmail.com
+
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div
+                                class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                                    </path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800">Direccion</h4>
+                                <p class="text-gray-600">Calle 5 #8-15, Monterrey, Casanare, Colombia</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div
+                                class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800">Horario de atencion</h4>
+                                <p class="text-gray-600">Lunes a Viernes: 7:00 am - 5:00 pm</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div
+                                class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.218 1.365.187 1.88.114.572-.081 1.873-.74 2.11-1.454.238-.713.238-1.326.163-1.457-.075-.131-.276-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24v-.302c.022-.735.085-1.097.085-1.11a9.543 9.543 0 012.047-4.538z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800">WhatsApp</h4>
+                                <a href="https://wa.me/573001234567" id="whatsapp-link" target="_blank"
+                                    class="text-secondary hover:underline">
+                                    <span id="whatsapp-num">+57 300 123 4567</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Formulario -->
+                <div class="bg-light rounded-xl p-8">
+                    <h3 class="font-semibold text-lg mb-4">Envianos un mensaje</h3>
+                    <form id="contact-form">
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+                                <input type="text" name="from_name" required
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Correo electronico</label>
+                                <input type="email" name="reply_to" required
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Asunto</label>
+                                <input type="text" name="subject" required
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Mensaje</label>
+                                <textarea name="message" rows="4" required
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none resize-none"></textarea>
+                            </div>
+                            <button type="submit" class="btn-primary w-full">
+                                Enviar mensaje
+                            </button>
+                            <p id="form-status" class="mt-2 text-sm"></p>
+                            <input type="text" name="website" tabindex="-1" autocomplete="off"
+                                style="position:absolute;left:-9999px;opacity:0" aria-hidden="true">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer py-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <h4 class="font-serif text-xl font-bold mb-4">Consejo de Padres de Familia</h4>
+                    <p class="text-blue-100 text-sm">
+                        Trabajando juntos por una educacion de calidad y una convivencia armonica
+                        en nuestra comunidad educativa.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Enlaces rapidos</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#nosotros">Nosotros</a></li>
+                        <li><a href="#funciones">Funciones</a></li>
+                        <li><a href="campana.html">Campañas</a></li>
+                        <li><a href="manual/index.html">Manual de Convivencia</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Año lectivo 2026</h4>
+                    <p class="text-blue-100 text-sm">
+                        Monterrey, Casanare<br>
+                        Colombia
+                    </p>
+                </div>
+            </div>
+            <div class="border-t border-blue-800 pt-8 text-center text-sm text-blue-200">
+                <p>&copy; 2026 Consejo de Padres de Familia. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to top -->
+    <button id="scroll-top" class="scroll-top-btn opacity-0 pointer-events-none">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
+    </button>
+
+    <script src="assets/js/sheets.js"></script>
+    <script src="assets/js/timeline.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>
+            (function () {
+                emailjs.init({
+                    publicKey: 'UJSq542GFsfb2zHp4',
+                });
+            })();
+
+        const form = document.getElementById('contact-form');
+        const statusEl = document.getElementById('form-status');
+
+        if (form) {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                // Honeypot anti-spam
+                const honeypot = form.querySelector('[name="website"]');
+                if (honeypot && honeypot.value) return; // bot detected, ignore
+
+                statusEl.textContent = 'Enviando...';
+
+                emailjs.sendForm('service_1pg6toa', 'template_021e4a6', this)
+                    .then(() => {
+                        statusEl.textContent = 'Mensaje enviado correctamente. Gracias por escribirnos!';
+                        form.reset();
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                        statusEl.textContent = 'Hubo un error al enviar el mensaje. Intenta de nuevo.';
+                    });
+            });
+        }
+    </script>
+</body>
+
+</html>
