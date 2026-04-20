@@ -46,12 +46,12 @@ function getCurrentPage() {
     if (filename === 'tema.html' && path.includes('manual')) return 'manual-tema';
     if (filename === 'index.html' && path.includes('manual')) return 'manual-index';
     if (filename === 'campana.html') {
-        // Si hay parametro id, mostrar campana individual; si no, mostrar listado
         const params = new URLSearchParams(search);
         if (params.has('id')) return 'campana-detalle';
         return 'campana-lista';
     }
-    if (filename === 'index.html') return 'index';
+    if (filename === 'recursos.html') return 'recursos';
+    if (filename === 'index.html' || filename === '') return 'index';
     return 'index';
 }
 
@@ -805,9 +805,17 @@ function createTemaCard(tema, linkToTema = false) {
  * Crea HTML de tarjeta de video
  */
 function createVideoCard(vid) {
+    const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(vid.video_url || '');
     let mediaHtml = '';
 
-    if (vid.video_url && vid.video_url.includes('youtube')) {
+    if (isImage) {
+        // Imagen: abre en lightbox
+        mediaHtml = `
+            <img src="${vid.miniatura_url || vid.video_url}" alt="${vid.titulo}"
+                class="w-full h-48 object-cover rounded-lg cursor-pointer hover:opacity-80"
+                data-full-src="${vid.video_url}">
+        `;
+    } else if (vid.video_url && vid.video_url.includes('youtube')) {
         mediaHtml = `
             <div class="video-container" data-video-url="${vid.video_url}">
                 <img src="${vid.miniatura_url || 'https://img.youtube.com/vi/' + vid.video_url.split('v=')[1] + '/hqdefault.jpg'}" alt="${vid.titulo}" class="w-full h-48 object-cover rounded-lg cursor-pointer hover:opacity-80">
@@ -861,6 +869,35 @@ function initVideoModal() {
             openVideoModal(videoUrl, poster);
         });
     });
+
+    // Lightbox para imagenes
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxClose = document.getElementById('lightbox-close');
+
+    if (lightbox && lightboxImg) {
+        document.querySelectorAll('img[data-full-src]').forEach(img => {
+            img.addEventListener('click', () => {
+                lightboxImg.src = img.dataset.fullSrc;
+                lightbox.classList.remove('hidden');
+                lightbox.classList.add('flex');
+            });
+        });
+
+        lightboxClose.addEventListener('click', () => {
+            lightbox.classList.add('hidden');
+            lightbox.classList.remove('flex');
+            lightboxImg.src = '';
+        });
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                lightbox.classList.add('hidden');
+                lightbox.classList.remove('flex');
+                lightboxImg.src = '';
+            }
+        });
+    }
 }
 
 /**

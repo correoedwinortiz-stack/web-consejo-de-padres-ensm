@@ -748,6 +748,16 @@ body {
     }
 }
 
+/* ==================== LIGHTBOX ==================== */
+
+#lightbox {
+    cursor: pointer;
+}
+
+#lightbox img {
+    cursor: default;
+}
+
 /* ==================== COLORS ==================== */
 
 .bg-primary {
