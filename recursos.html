@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Documentos y materiales - Consejo de Padres ENSM">
+    <title>Documentos y Materiales - Consejo de Padres ENSM</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e3a5f',
+                        secondary: '#2d7d5a',
+                        accent: '#f5a623',
+                        orange: '#e8792f',
+                        light: '#f8f9fa',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        serif: ['Playfair Display', 'Georgia', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body class="bg-white">
+
+    <!-- Top bar -->
+    <div class="top-bar py-2">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap justify-between items-center gap-2">
+            <div class="flex items-center gap-4">
+                <a href="mailto:consejopadres.ensm@gmail.com" class="flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                        </path>
+                    </svg>
+                    consejopadres.ensm@gmail.com
+                </a>
+                <span class="hidden sm:inline">Monterrey, Casanare</span>
+            </div>
+            <span class="font-medium">Año lectivo 2026</span>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav id="navbar" class="sticky top-0 z-50 bg-white border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="navbar-brand flex items-center gap-2">
+                    <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
+                        </path>
+                    </svg>
+                    Consejo de Padres ENSM
+                </a>
+
+                <!-- Desktop menu -->
+                <div class="hidden md:flex items-center gap-1">
+                    <a href="index.html" class="nav-link">Inicio</a>
+                    <a href="index.html#nosotros" class="nav-link">Nosotros</a>
+                    <a href="index.html#funciones" class="nav-link">Funciones</a>
+                    <a href="index.html#actividades" class="nav-link">Actividades</a>
+                    <a href="index.html#comunicados" class="nav-link">Comunicados</a>
+                    <a href="campana.html" class="nav-link">Campañas</a>
+                    <a href="recursos.html" class="nav-link text-primary font-semibold">Documentos</a>
+                    <a href="manual/index.html" class="nav-link">Manual</a>
+                    <a href="index.html#contacto" class="nav-link">Contacto</a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <button id="menu-toggle" class="md:hidden p-2 rounded-lg hover:bg-gray-100">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-gray-100">
+            <div class="px-4 py-3 space-y-2">
+                <a href="index.html" class="block py-2 px-3 rounded-lg hover:bg-gray-50">Inicio</a>
+                <a href="index.html#nosotros" class="block py-2 px-3 rounded-lg hover:bg-gray-50">Nosotros</a>
+                <a href="index.html#funciones" class="block py-2 px-3 rounded-lg hover:bg-gray-50">Funciones</a>
+                <a href="index.html#actividades" class="block py-2 px-3 rounded-lg hover:bg-gray-50">Actividades</a>
+                <a href="index.html#comunicados" class="block py-2 px-3 rounded-lg hover:bg-gray-50">Comunicados</a>
+                <a href="campana.html" class="block py-2 px-3 rounded-lg hover:bg-gray-50">Campañas</a>
+                <a href="recursos.html" class="block py-2 px-3 rounded-lg bg-gray-50">Documentos</a>
+                <a href="manual/index.html" class="block py-2 px-3 rounded-lg hover:bg-gray-50">Manual</a>
+                <a href="index.html#contacto" class="block py-2 px-3 rounded-lg hover:bg-gray-50">Contacto</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="bg-light py-12 md:py-16 border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h1 class="section-title">Documentos y Materiales</h1>
+            <p class="text-gray-600 text-lg max-w-2xl mx-auto">Recursos descargables para las familias organizados por campaña</p>
+        </div>
+    </section>
+
+    <!-- Recursos por campaña -->
+    <section id="recursos-section" class="py-12 md:py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div id="recursos-container" class="space-y-12">
+                <!-- Cargado dinámicamente -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer py-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <h4 class="font-serif text-xl font-bold mb-4">Consejo de Padres de Familia ENSM</h4>
+                    <p class="text-blue-100 text-sm">
+                        Trabajando juntos por una educación de calidad y una convivencia armónica.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Enlaces rápidos</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="index.html#funciones">Funciones</a></li>
+                        <li><a href="campana.html">Campaña de Convivencia</a></li>
+                        <li><a href="manual/index.html">Manual de Convivencia</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Año lectivo 2026</h4>
+                    <p class="text-blue-100 text-sm">
+                        Monterrey, Casanare<br>
+                        Colombia
+                    </p>
+                </div>
+            </div>
+            <div class="border-t border-blue-800 pt-8 text-center text-sm text-blue-200">
+                <p>&copy; 2026 Consejo de Padres de Familia ENSM. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button id="scroll-top" class="scroll-top-btn opacity-0 pointer-events-none">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
+    </button>
+
+    <script src="assets/js/sheets.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            initMobileMenu();
+            initNavbarScroll();
+            initScrollToTop();
+            await loadAllRecursos();
+        });
+
+        async function loadAllRecursos() {
+            const container = document.getElementById('recursos-container');
+            if (!container) return;
+
+            try {
+                const recursos = await getRecursos();
+                console.log('[Recursos] Total:', recursos.length);
+
+                if (recursos.length === 0) {
+                    container.innerHTML = '<p class="text-gray-500 text-center py-8">No hay recursos disponibles</p>';
+                    return;
+                }
+
+                // Agrupar por campaña (categoria)
+                const grouped = {};
+                recursos.forEach(rec => {
+                    const cat = rec.categoria || 'Sin categoría';
+                    if (!grouped[cat]) grouped[cat] = [];
+                    grouped[cat].push(rec);
+                });
+
+                // Obtener nombres de campañas
+                const campanas = await getCampanas();
+                const campanaNames = {};
+                campanas.forEach(c => campanaNames[c.id] = c.nombre);
+
+                let html = '';
+                Object.keys(grouped).forEach(cat => {
+                    const campanaNombre = campanaNames[cat] || cat;
+                    html += `
+                        <div>
+                            <h2 class="font-serif text-2xl font-bold text-primary mb-6 border-b pb-2">${campanaNombre}</h2>
+                            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                ${grouped[cat].map(rec => createRecursoCard(rec)).join('')}
+                            </div>
+                        </div>
+                    `;
+                });
+
+                container.innerHTML = html;
+            } catch (error) {
+                console.error('[Recursos] Error:', error);
+                container.innerHTML = '<p class="text-red-500 text-center py-8">Error cargando recursos</p>';
+            }
+        }
+
+        function createRecursoCard(rec) {
+            const isPdf = rec.tipo === 'pdf';
+            const icon = isPdf
+                ? `<svg class="w-8 h-8 text-red-500" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 2l5 5h-5V4zM8.5 18a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .5-.5H11a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5H8.5zm1.5-7a.5.5 0 0 1-.5.5H9v1h.5a.5.5 0 0 1 0 1H9v1.5a.5.5 0 0 1-1 0V12h-.5a.5.5 0 0 1 0-1H8v-.5zm3.5 7a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .5-.5H14a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-1z"/></svg>`
+                : `<svg class="w-8 h-8 text-blue-500" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 2l5 5h-5V4z"/></svg>`;
+
+            return `
+                <div class="bg-light rounded-xl p-6 border border-gray-200 hover:border-primary transition-colors">
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0">${icon}</div>
+                        <div class="flex-1 min-w-0">
+                            <h3 class="font-semibold text-gray-800 mb-1 truncate">${rec.titulo}</h3>
+                            <p class="text-sm text-gray-600 mb-4 line-clamp-2">${rec.descripcion || ''}</p>
+                            <a href="${rec.url}" target="_blank" class="btn-primary text-sm inline-flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                                </svg>
+                                Descargar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+
+</html>
