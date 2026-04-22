@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     initMobileMenu();
     initNavbarScroll();
     initScrollToTop();
+    initVideoModal();
 
     // Cargar secciones segun pagina
     const page = getCurrentPage();
