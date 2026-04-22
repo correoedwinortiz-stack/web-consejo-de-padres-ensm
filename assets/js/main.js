@@ -862,7 +862,7 @@ function createComunicadoCard(com) {
 function createCampanaCard(camp) {
     return `
         <div class="card-animated bg-white rounded-xl shadow-md overflow-hidden">
-            ${camp.imagen_url ? `<img src="${camp.imagen_url}" alt="${camp.nombre}" class="w-full h-40 object-cover">` : ''}
+            ${camp.imagen_url ? `<img src="${camp.imagen_url}" alt="${camp.nombre}" class="w-full aspect-video object-cover">` : ''}
             <div class="p-6">
                 <h3 class="text-xl font-bold text-gray-800 mb-2">${camp.nombre}</h3>
                 <p class="text-sm text-primary font-medium mb-2">${camp.subtitulo || ''}</p>
