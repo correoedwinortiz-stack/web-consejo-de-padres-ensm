@@ -712,14 +712,27 @@ async function loadTemaContent() {
         const metaDesc = document.querySelector('meta[name="description"]');
         if (metaDesc) metaDesc.content = tema.resumen;
 
-        // Renderizar tema header
-        const headerHtml = `
-            <div class="tema-header">
-                <span class="tema-category">${tema.categoria}</span>
-                <h1 class="tema-title">${tema.titulo}</h1>
-                <p class="tema-resumen">${tema.resumen}</p>
-            </div>
-        `;
+        // Actualizar Hero y Titulos
+        const heroBadge = document.getElementById('tema-categoria-badge');
+        const heroTitulo = document.getElementById('tema-titulo-main');
+        const heroResumen = document.getElementById('tema-resumen-main');
+        const heroSection = document.getElementById('hero-tema');
+        const heroOverlay = document.getElementById('hero-overlay');
+
+        if (heroBadge) heroBadge.textContent = tema.categoria;
+        if (heroTitulo) heroTitulo.textContent = tema.titulo;
+        if (heroResumen) heroResumen.textContent = tema.resumen;
+
+        // Imagen de fondo si existe
+        if (heroSection && tema.imagen_url) {
+            heroSection.style.backgroundImage = `url(${tema.imagen_url})`;
+            heroSection.style.backgroundSize = 'cover';
+            heroSection.style.backgroundPosition = 'center';
+            if (heroOverlay) heroOverlay.classList.remove('hidden');
+        } else if (heroSection) {
+            heroSection.style.backgroundImage = 'none';
+            if (heroOverlay) heroOverlay.classList.add('hidden');
+        }
 
         // Cargar bloques
         const bloques = await getBloquesManual(tema.id);
@@ -730,7 +743,7 @@ async function loadTemaContent() {
         }
 
         const bloquesHtml = bloques.map(bloque => renderBloque(bloque)).join('');
-        container.innerHTML = headerHtml + bloquesHtml;
+        container.innerHTML = bloquesHtml;
 
         // Inicializar acordeones
         initAccordions();

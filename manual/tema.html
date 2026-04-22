@@ -40,16 +40,15 @@
     <div class="top-bar py-2">
         <div class="max-w-7xl mx-auto px-4 flex flex-wrap justify-between items-center gap-2">
             <div class="flex items-center gap-4">
-                <a href="mailto:consejopadres@edu.gov.co" class="flex items-center gap-1">
+                <a href="mailto:consejopadres.ensm@gmail.com" class="correo-link flex items-center gap-1">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
                         </path>
                     </svg>
                     consejopadres.ensm@gmail.com
-
                 </a>
-                <span class="hidden sm:inline">Monterrey, Casanare</span>
+                <span class="direccion-text hidden sm:inline">Monterrey, Casanare</span>
             </div>
             <span class="font-medium">Ano lectivo 2026</span>
         </div>
@@ -65,7 +64,7 @@
                             d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
                         </path>
                     </svg>
-                    Consejo de Padres ENSM
+                    <span class="brand-name">Consejo de Padres ENSM</span>
                 </a>
 
                 <div class="hidden md:flex items-center gap-1">
@@ -98,7 +97,25 @@
         </div>
     </nav>
 
-    <!-- Breadcrumb y boton volver -->
+    <!-- Hero del Tema -->
+    <section id="hero-tema" class="hero py-12 md:py-16 min-h-[300px] flex items-center relative overflow-hidden bg-primary text-white">
+        <div id="hero-overlay" class="absolute inset-0 bg-black/60 hidden"></div>
+        <div class="max-w-7xl mx-auto px-4 relative z-10 w-full">
+            <div class="max-w-3xl">
+                <span id="tema-categoria-badge" class="inline-block px-2 py-1 bg-white/20 rounded-full text-xs font-medium mb-4 uppercase tracking-wider">
+                    Categoria
+                </span>
+                <h1 id="tema-titulo-main" class="font-serif text-3xl md:text-4xl lg:text-5xl font-bold mb-4 drop-shadow-lg">
+                    Cargando tema...
+                </h1>
+                <p id="tema-resumen-main" class="text-lg md:text-xl text-blue-100 drop-shadow-md">
+                    ...
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Breadcrumb -->
     <section class="py-4 bg-light border-b border-gray-200">
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex items-center gap-2 text-sm">
@@ -127,14 +144,17 @@
         <div class="max-w-7xl mx-auto px-4">
             <div class="grid md:grid-cols-3 gap-8 mb-8">
                 <div>
-                    <h4 class="font-serif text-xl font-bold mb-4">Consejo de Padres de Familia ENSM</h4>
-                    <p class="text-blue-100 text-sm">
+                    <h4 class="brand-name font-serif text-xl font-bold mb-4">Consejo de Padres de Familia ENSM</h4>
+                    <p class="text-blue-100 text-sm mb-6">
                         Trabajando juntos por una educacion de calidad y una convivencia armonica.
                     </p>
+                    <div id="social-links" class="flex gap-4">
+                        <!-- Cargado dinamicamente -->
+                    </div>
                 </div>
                 <div>
                     <h4 class="font-semibold mb-4">Enlaces rapidos</h4>
-                    <ul class="space-y-2 text-sm">
+                    <ul id="footer-links" class="space-y-2 text-sm">
                         <li><a href="../index.html">Inicio</a></li>
                         <li><a href="../index.html#funciones">Funciones</a></li>
                         <li><a href="../campana.html">Campana de Convivencia</a></li>
@@ -154,6 +174,12 @@
             </div>
         </div>
     </footer>
+
+    <!-- Lightbox para imagenes -->
+    <div id="lightbox" class="fixed inset-0 bg-black/90 z-50 hidden items-center justify-center p-4">
+        <button id="lightbox-close" class="absolute top-4 right-4 text-white text-3xl">&times;</button>
+        <img id="lightbox-img" src="" alt="" class="max-w-full max-h-full object-contain">
+    </div>
 
     <button id="scroll-top" class="scroll-top-btn opacity-0 pointer-events-none">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
