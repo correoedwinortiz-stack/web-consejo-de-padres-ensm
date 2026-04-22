@@ -293,3 +293,18 @@ async function getRecursosCampana(idCampana) {
     data = data.filter(item => item.categoria === idCampana && item.visible === 'si');
     return data.sort((a, b) => parseInt(a.orden || 0) - parseInt(b.orden || 0));
 }
+/**
+ * Obtiene enlaces por grupo
+ * @param {string} grupo - Grupo de enlaces (opcional)
+ * @returns {Promise<Array>}
+ */
+async function getEnlaces(grupo = null) {
+    let data = await getSheetData('enlaces');
+    data = data.filter(item => item.visible === 'si');
+
+    if (grupo) {
+        data = data.filter(item => item.grupo === grupo);
+    }
+
+    return data.sort((a, b) => parseInt(a.orden || 0) - parseInt(b.orden || 0));
+}

@@ -21,17 +21,25 @@ document.addEventListener('DOMContentLoaded', async () => {
         await loadCampanas();
         await loadTemasManual();
         await loadConfig();
+        await loadEnlaces();
     } else if (page === 'campana-lista') {
         await loadAllCampanas();
         initCampanaSearchFilter();
+        await loadConfig();
+        await loadEnlaces();
     } else if (page === 'campana-detalle') {
         await loadCampanaData();
+        await loadConfig();
+        await loadEnlaces();
     } else if (page === 'manual-index') {
         await loadAllTemas();
         await loadConfig();
+        await loadEnlaces();
         initSearchFilter();
     } else if (page === 'manual-tema') {
         await loadTemaContent();
+        await loadConfig();
+        await loadEnlaces();
     }
 });
 
@@ -115,28 +123,87 @@ async function loadConfig() {
         const nombre = await getConfig('nombre_institucion');
         const correo = await getConfig('correo_contacto');
         const direccion = await getConfig('direccion');
-        const telefono = await getConfig('telefono');
         const whatsapp = await getConfig('whatsapp');
+        const horario = await getConfig('horario');
 
-        // Actualizar top bar
-        const topCorreo = document.getElementById('top-correo');
-        const topDireccion = document.getElementById('top-direccion');
+        console.log('[loadConfig] Datos:', { nombre, correo, direccion, whatsapp, horario });
 
-        if (topCorreo && correo) topCorreo.href = `mailto:${correo}`;
-        if (topDireccion && direccion) topDireccion.textContent = direccion;
+        // Actualizar Nombre de Institucion (Logo y Footer)
+        const brandNames = document.querySelectorAll('.brand-name');
+        brandNames.forEach(el => el.textContent = nombre || 'Consejo de Padres ENSM');
 
-        // Actualizar WhatsApp en contacto
-        const whatsappLink = document.getElementById('whatsapp-link');
-        const whatsappNum = document.getElementById('whatsapp-num');
-        if (whatsappLink && whatsapp) {
-            whatsappLink.href = `https://wa.me/${whatsapp.replace(/\D/g, '')}`;
-        }
-        if (whatsappNum && whatsapp) {
-            whatsappNum.textContent = whatsapp;
+        // Actualizar Correo (Top Bar y Seccion Contacto)
+        const correoLinks = document.querySelectorAll('.correo-link');
+        correoLinks.forEach(el => {
+            if (el.tagName === 'A') el.href = `mailto:${correo}`;
+            el.textContent = correo;
+        });
+
+        // Actualizar Direccion
+        const direccionTexts = document.querySelectorAll('.direccion-text');
+        direccionTexts.forEach(el => el.textContent = direccion);
+
+        // Actualizar Horario
+        const horarioText = document.getElementById('horario-text');
+        if (horarioText) horarioText.textContent = horario;
+
+        // Actualizar WhatsApp
+        const whatsappLinks = document.querySelectorAll('.whatsapp-link');
+        const whatsappNums = document.querySelectorAll('.whatsapp-num');
+        
+        if (whatsapp) {
+            const cleanWA = whatsapp.replace(/\D/g, '');
+            whatsappLinks.forEach(el => el.href = `https://wa.me/${cleanWA}`);
+            whatsappNums.forEach(el => el.textContent = whatsapp);
         }
     } catch (error) {
         console.error('Error cargando config:', error);
     }
+}
+
+/**
+ * Carga enlaces dinamicos (redes sociales y footer)
+ */
+async function loadEnlaces() {
+    try {
+        // Cargar redes sociales
+        const redes = await getEnlaces('redes');
+        const socialContainer = document.getElementById('social-links');
+        console.log('[loadEnlaces] Redes sociales:', redes);
+        
+        if (socialContainer && redes.length > 0) {
+            socialContainer.innerHTML = redes.map(red => `
+                <a href="${red.url}" target="_blank" class="text-blue-200 hover:text-white transition-colors" title="${red.nombre}">
+                    <span class="sr-only">${red.nombre}</span>
+                    ${getSocialIcon(red.nombre.toLowerCase())}
+                </a>
+            `).join('');
+        }
+
+        // Cargar enlaces principales (Footer)
+        const enlacesPrin = await getEnlaces('principal');
+        const footerLinksContainer = document.getElementById('footer-links');
+        console.log('[loadEnlaces] Enlaces principales:', enlacesPrin);
+
+        if (footerLinksContainer && enlacesPrin.length > 0) {
+            footerLinksContainer.innerHTML = enlacesPrin.map(enl => `
+                <li><a href="${enl.url}" class="hover:text-white transition-colors">${enl.nombre}</a></li>
+            `).join('');
+        }
+    } catch (error) {
+        console.error('Error cargando enlaces:', error);
+    }
+}
+
+/**
+ * Retorna el icono SVG segun la red social
+ */
+function getSocialIcon(name) {
+    if (name.includes('facebook')) return '<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>';
+    if (name.includes('instagram')) return '<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>';
+    if (name.includes('twitter') || name.includes(' x ')) return '<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>';
+    if (name.includes('youtube')) return '<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505a3.017 3.017 0 00-2.122 2.136C0 8.055 0 12 0 12s0 3.945.501 5.814a3.017 3.017 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.945 24 12 24 12s0-3.945-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>';
+    return '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>';
 }
 
 /**
