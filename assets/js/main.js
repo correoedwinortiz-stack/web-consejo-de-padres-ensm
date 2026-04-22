@@ -862,7 +862,7 @@ function createComunicadoCard(com) {
 function createCampanaCard(camp) {
     return `
         <div class="card-animated bg-white rounded-xl shadow-md overflow-hidden">
-            ${camp.imagen_url ? `<img src="${camp.imagen_url}" alt="${camp.nombre}" class="w-full aspect-video object-cover">` : ''}
+            ${camp.imagen_url ? `<img src="${camp.imagen_url}" alt="${camp.nombre}" class="w-full aspect-video object-cover cursor-pointer hover:opacity-90 transition-opacity" data-full-src="${camp.imagen_url}" title="Click para ampliar">` : ''}
             <div class="p-6">
                 <h3 class="text-xl font-bold text-gray-800 mb-2">${camp.nombre}</h3>
                 <p class="text-sm text-primary font-medium mb-2">${camp.subtitulo || ''}</p>
@@ -971,18 +971,23 @@ function initVideoModal() {
     const lightboxClose = document.getElementById('lightbox-close');
 
     if (lightbox && lightboxImg) {
-        document.querySelectorAll('img[data-full-src]').forEach(img => {
-            img.addEventListener('click', () => {
+        // Usar delegacion de eventos para manejar imagenes dinamicas
+        document.addEventListener('click', (e) => {
+            const img = e.target.closest('img[data-full-src]');
+            if (img) {
+                console.log('[Lightbox] Abriendo imagen:', img.dataset.fullSrc);
                 lightboxImg.src = img.dataset.fullSrc;
                 lightbox.classList.remove('hidden');
                 lightbox.classList.add('flex');
-            });
+                document.body.style.overflow = 'hidden'; // Evitar scroll
+            }
         });
 
         lightboxClose.addEventListener('click', () => {
             lightbox.classList.add('hidden');
             lightbox.classList.remove('flex');
             lightboxImg.src = '';
+            document.body.style.overflow = '';
         });
 
         lightbox.addEventListener('click', (e) => {
@@ -990,6 +995,7 @@ function initVideoModal() {
                 lightbox.classList.add('hidden');
                 lightbox.classList.remove('flex');
                 lightboxImg.src = '';
+                document.body.style.overflow = '';
             }
         });
     }
