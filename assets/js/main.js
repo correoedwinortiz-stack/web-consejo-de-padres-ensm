@@ -549,12 +549,39 @@ async function loadAllTemas() {
         }
 
         window.allTemas = temas; // Guardar para filtro
+        populateCategoryFilter(temas);
         container.innerHTML = temas.map(tema => createTemaCard(tema, true)).join('');
 
         observeCards(container.querySelectorAll('.card-animated'));
     } catch (error) {
         container.innerHTML = '<p class="text-red-500 text-center">Error cargando temas</p>';
     }
+}
+
+/**
+ * Popula el filtro de categorías dinámicamente
+ */
+function populateCategoryFilter(temas) {
+    const filter = document.getElementById('category-filter');
+    if (!filter) return;
+
+    // Obtener categorías únicas
+    const categories = [...new Set(temas.map(t => t.categoria))].filter(Boolean).sort();
+    console.log('[populateCategoryFilter] Categorias detectadas:', categories);
+
+    // Guardar la opción por defecto ("Todas")
+    const firstOption = filter.options[0];
+    filter.innerHTML = '';
+    filter.appendChild(firstOption);
+
+    // Agregar las nuevas opciones detectadas
+    categories.forEach(cat => {
+        const option = document.createElement('option');
+        option.value = cat;
+        // Capitalizar primera letra para mostrar en el dropdown
+        option.textContent = cat.charAt(0).toUpperCase() + cat.slice(1);
+        filter.appendChild(option);
+    });
 }
 
 /**
@@ -787,7 +814,8 @@ function createTemaCard(tema, linkToTema = false) {
     const categoryLabels = {
         'convivencia': 'bg-red-100 text-red-800',
         'participacion': 'bg-blue-100 text-blue-800',
-        'familias': 'bg-purple-100 text-purple-800'
+        'familias': 'bg-purple-100 text-purple-800',
+        'compromiso': 'bg-amber-100 text-amber-800'
     };
     const catClass = categoryLabels[tema.categoria] || 'bg-gray-100 text-gray-800';
 
