@@ -431,12 +431,13 @@ async function loadCampanaData() {
             if (el) el.classList.remove('hidden');
         });
 
-        // Cargar contenido en paralelo
+        // Cargar contenido en paralelo de forma segura
         await Promise.all([
-            loadCampanaVideos(idCampana),
-            loadCampanaJuegos(idCampana),
-            loadCampanaRecursos(idCampana),
-            loadTemasRelacionados()
+            loadCampanaVideos(idCampana).catch(e => console.error('Error videos:', e)),
+            loadCampanaJuegos(idCampana).catch(e => console.error('Error juegos:', e)),
+            loadCampanaRecursos(idCampana).catch(e => console.error('Error recursos:', e)),
+            loadTemasRelacionados().catch(e => console.error('Error temas:', e)),
+            loadCampanaNavigation(idCampana).catch(e => console.error('Error nav:', e))
         ]);
     } catch (error) {
         console.error('[Campana] Error general:', error);
@@ -530,6 +531,10 @@ async function loadCampanaVideos(idCampana) {
             return;
         }
 
+        // Mostrar boton solo si hay videos
+        const btn = document.getElementById('btn-videos');
+        if (btn) btn.classList.remove('hidden');
+
         container.innerHTML = videos.map(vid => createVideoCard(vid)).join('');
         initVideoModal();
     } catch (error) {
@@ -554,6 +559,10 @@ async function loadCampanaJuegos(idCampana) {
             return;
         }
 
+        // Mostrar boton solo si hay juegos
+        const btn = document.getElementById('btn-juegos');
+        if (btn) btn.classList.remove('hidden');
+
         container.innerHTML = juegos.map(juego => createJuegoCard(juego)).join('');
     } catch (error) {
         console.error('[Campana] Error juegos:', error);
@@ -576,6 +585,10 @@ async function loadCampanaRecursos(idCampana) {
             container.innerHTML = '<p class="text-gray-500 text-center py-8">No hay recursos disponibles para esta campana.</p>';
             return;
         }
+
+        // Mostrar boton solo si hay recursos
+        const btn = document.getElementById('btn-recursos');
+        if (btn) btn.classList.remove('hidden');
 
         container.innerHTML = recursos.map(rec => createRecursoCard(rec)).join('');
     } catch (error) {
@@ -1164,4 +1177,68 @@ function observeCards(cards) {
     }, { threshold: 0.1 });
 
     cards.forEach(card => observer.observe(card));
+}
+
+/**
+ * Carga navegacion entre campanas (Anterior/Siguiente)
+ */
+async function loadCampanaNavigation(currentId) {
+    const prevContainer = document.getElementById('prev-campana-link');
+    const nextContainer = document.getElementById('next-campana-link');
+    const navSection = document.getElementById('campana-navigation');
+
+    if (!prevContainer || !nextContainer || !navSection) return;
+
+    try {
+        const allCampanas = await getCampanas();
+        const currentIndex = allCampanas.findIndex(c => c.id === currentId);
+
+        if (currentIndex === -1) return;
+
+        let hasNavigation = false;
+
+        // Campana Anterior
+        if (currentIndex > 0) {
+            const prev = allCampanas[currentIndex - 1];
+            prevContainer.innerHTML = `
+                <a href="campana.html?id=${prev.id}" class="group flex items-center gap-3 text-left">
+                    <div class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    </div>
+                    <div>
+                        <span class="text-xs text-gray-500 uppercase tracking-wider">Anterior</span>
+                        <div class="font-semibold text-gray-800 line-clamp-1">${prev.nombre}</div>
+                    </div>
+                </a>
+            `;
+            hasNavigation = true;
+        } else {
+            prevContainer.innerHTML = '';
+        }
+
+        // Campana Siguiente
+        if (currentIndex < allCampanas.length - 1) {
+            const next = allCampanas[currentIndex + 1];
+            nextContainer.innerHTML = `
+                <a href="campana.html?id=${next.id}" class="group flex items-center gap-3 text-right justify-end">
+                    <div>
+                        <span class="text-xs text-gray-500 uppercase tracking-wider">Siguiente</span>
+                        <div class="font-semibold text-gray-800 line-clamp-1">${next.nombre}</div>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </div>
+                </a>
+            `;
+            hasNavigation = true;
+        } else {
+            nextContainer.innerHTML = '';
+        }
+
+        if (hasNavigation) {
+            navSection.classList.remove('hidden');
+        }
+    } catch (error) {
+        console.error('[Navigation] Error:', error);
+    }
 }

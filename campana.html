@@ -160,10 +160,14 @@
                     ...
                 </p>
                 <div id="hero-botones" class="flex flex-wrap gap-4">
-                    <a href="#videos-section" class="btn-primary">Ver multimedia</a>
-                    <a href="#juegos-section"
-                        class="btn-outline border-white text-white hover:bg-white hover:text-primary">
+                    <a href="#videos-section" id="btn-videos" class="btn-primary hidden">Ver multimedia</a>
+                    <a href="#juegos-section" id="btn-juegos"
+                        class="btn-outline border-white text-white hover:bg-white hover:text-primary hidden">
                         Explorar juegos
+                    </a>
+                    <a href="#recursos-section" id="btn-recursos"
+                        class="btn-outline border-white text-white hover:bg-white hover:text-primary hidden">
+                        Recursos
                     </a>
                 </div>
             </div>
@@ -235,6 +239,20 @@
         </div>
     </section>
 
+    <!-- Navegacion entre campanas -->
+    <section id="campana-navigation" class="py-8 bg-white border-t border-gray-100 hidden">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div id="prev-campana-link" class="w-full md:w-1/2 flex justify-start">
+                    <!-- Dinamico -->
+                </div>
+                <div id="next-campana-link" class="w-full md:w-1/2 flex justify-end">
+                    <!-- Dinamico -->
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer class="footer py-12">
         <div class="max-w-7xl mx-auto px-4">
@@ -276,8 +294,12 @@
         <button id="lightbox-close" class="absolute top-4 right-4 text-white text-3xl">&times;</button>
         <img id="lightbox-img" src="" alt="" class="max-w-full max-h-full object-contain">
     </div>
-
-
+    <!-- Scroll to top -->
+    <button id="scroll-top" class="scroll-top-btn opacity-0 pointer-events-none">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
+    </button>
 
     <script src="assets/js/sheets.js"></script>
     <script src="assets/js/main.js"></script>
