@@ -851,24 +851,38 @@ function createActividadCard(act) {
 function createComunicadoCard(com) {
     const isDestacado = com.destacado === 'si';
     const cardClass = isDestacado ? 'bg-amber-50 border-l-4 border-amber-400' : 'bg-white';
-
+    
+    // Si la carta entera es un enlace, el hover de la imagen ya no necesita el "group" en la imagen,
+    // usamos "group" en la carta principal para animar elementos internos.
     const imageHtml = com.miniatura_url ? `
-        <div class="w-full h-48 bg-gray-50 rounded-lg mb-4 flex items-center justify-center overflow-hidden border border-gray-100 relative group">
+        <div class="w-full h-48 bg-gray-50 rounded-lg mb-4 flex items-center justify-center overflow-hidden border border-gray-100 relative">
             <img src="${com.miniatura_url}" alt="${com.titulo}" class="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-300">
         </div>
     ` : '';
 
+    const Tag = com.pdf_url ? 'a' : 'div';
+    const hrefAttr = com.pdf_url ? `href="${com.pdf_url}" target="_blank" title="Abrir documento"` : '';
+    const hoverClass = com.pdf_url ? 'cursor-pointer hover:-translate-y-1 hover:shadow-lg transition-all group block' : 'group';
+
+    const actionText = com.pdf_url ? `
+        <div class="mt-4 flex items-center text-primary font-medium text-sm group-hover:text-blue-700 transition-colors">
+            <span>Abrir comunicado</span>
+            <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+        </div>
+    ` : '';
+
     return `
-        <div class="card-animated ${cardClass} rounded-xl shadow-md p-6">
+        <${Tag} ${hrefAttr} class="card-animated ${cardClass} rounded-xl shadow-md p-6 ${hoverClass}">
             <div class="text-sm text-gray-500 mb-2">${formatDate(com.fecha)}</div>
             ${isDestacado ? '<span class="inline-block px-2 py-1 text-xs rounded bg-amber-200 text-amber-800 mb-2">Destacado</span>' : ''}
-            <h3 class="text-lg font-semibold text-gray-800 mb-2">${com.titulo}</h3>
+            <h3 class="text-lg font-semibold text-gray-800 mb-2 group-hover:text-primary transition-colors">${com.titulo}</h3>
             ${imageHtml}
-            <p class="text-gray-600 text-sm mb-4">${com.resumen || ''}</p>
-            ${com.pdf_url ? `<a href="${com.pdf_url}" target="_blank" class="btn-secondary text-sm">Ver Archivo</a>` : ''}
-        </div>
+            <p class="text-gray-600 text-sm">${com.resumen || ''}</p>
+            ${actionText}
+        </${Tag}>
     `;
 }
+
 
 /**
  * Crea HTML de tarjeta de campana
