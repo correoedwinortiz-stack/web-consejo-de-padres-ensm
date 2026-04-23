@@ -852,7 +852,11 @@ function createComunicadoCard(com) {
     const isDestacado = com.destacado === 'si';
     const cardClass = isDestacado ? 'bg-amber-50 border-l-4 border-amber-400' : 'bg-white';
 
-    const imageHtml = com.miniatura_url ? `<img src="${com.miniatura_url}" alt="${com.titulo}" class="w-full h-40 object-cover rounded-lg mb-4">` : '';
+    const imageHtml = com.miniatura_url ? `
+        <div class="w-full h-48 bg-gray-50 rounded-lg mb-4 flex items-center justify-center overflow-hidden border border-gray-100 relative group">
+            <img src="${com.miniatura_url}" alt="${com.titulo}" class="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-300">
+        </div>
+    ` : '';
 
     return `
         <div class="card-animated ${cardClass} rounded-xl shadow-md p-6">
@@ -916,16 +920,19 @@ function createVideoCard(vid) {
     if (isImage) {
         // Imagen: abre en lightbox
         mediaHtml = `
-            <img src="${vid.miniatura_url || vid.video_url}" alt="${vid.titulo}"
-                class="w-full h-48 object-cover rounded-lg cursor-pointer hover:opacity-80"
-                data-full-src="${vid.video_url}">
+            <div class="w-full h-48 bg-gray-50 rounded-lg flex items-center justify-center overflow-hidden border border-gray-100 relative group">
+                <img src="${vid.miniatura_url || vid.video_url}" alt="${vid.titulo}"
+                    class="w-full h-full object-contain p-2 cursor-pointer group-hover:scale-105 transition-transform duration-300"
+                    data-full-src="${vid.video_url}">
+                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors pointer-events-none"></div>
+            </div>
         `;
     } else if (vid.video_url && vid.video_url.includes('youtube')) {
         mediaHtml = `
-            <div class="video-container" data-video-url="${vid.video_url}">
-                <img src="${vid.miniatura_url || 'https://img.youtube.com/vi/' + vid.video_url.split('v=')[1] + '/hqdefault.jpg'}" alt="${vid.titulo}" class="w-full h-48 object-cover rounded-lg cursor-pointer hover:opacity-80">
-                <button class="play-btn absolute inset-0 flex items-center justify-center" data-video-url="${vid.video_url}">
-                    <svg class="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 24 24">
+            <div class="video-container relative w-full h-48 bg-black rounded-lg overflow-hidden group" data-video-url="${vid.video_url}">
+                <img src="${vid.miniatura_url || 'https://img.youtube.com/vi/' + vid.video_url.split('v=')[1] + '/hqdefault.jpg'}" alt="${vid.titulo}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity cursor-pointer">
+                <button class="play-btn absolute inset-0 flex items-center justify-center group-hover:scale-110 transition-transform duration-300" data-video-url="${vid.video_url}">
+                    <svg class="w-16 h-16 text-white drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M8 5v14l11-7z"/>
                     </svg>
                 </button>
@@ -933,10 +940,10 @@ function createVideoCard(vid) {
         `;
     } else if (vid.video_url && vid.video_url.includes('cloudinary')) {
         mediaHtml = `
-            <div class="video-wrapper" data-video-url="${vid.video_url}" data-poster="${vid.miniatura_url || ''}">
-                <img src="${vid.miniatura_url || ''}" alt="${vid.titulo}" class="w-full h-48 object-cover rounded-lg cursor-pointer hover:opacity-80">
-                <button class="play-btn absolute inset-0 flex items-center justify-center" data-video-url="${vid.video_url}" data-poster="${vid.miniatura_url || ''}">
-                    <svg class="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 24 24">
+            <div class="video-wrapper relative w-full h-48 bg-black rounded-lg overflow-hidden group" data-video-url="${vid.video_url}" data-poster="${vid.miniatura_url || ''}">
+                <img src="${vid.miniatura_url || ''}" alt="${vid.titulo}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity cursor-pointer">
+                <button class="play-btn absolute inset-0 flex items-center justify-center group-hover:scale-110 transition-transform duration-300" data-video-url="${vid.video_url}" data-poster="${vid.miniatura_url || ''}">
+                    <svg class="w-16 h-16 text-white drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M8 5v14l11-7z"/>
                     </svg>
                 </button>
