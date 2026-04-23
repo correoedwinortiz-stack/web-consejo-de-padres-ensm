@@ -433,7 +433,8 @@ async function loadCampanaData() {
         await Promise.all([
             loadCampanaVideos(idCampana),
             loadCampanaJuegos(idCampana),
-            loadCampanaRecursos(idCampana)
+            loadCampanaRecursos(idCampana),
+            loadCampanaNavigation(idCampana)
         ]);
     } catch (error) {
         console.error('[Campana] Error general:', error);
@@ -626,6 +627,57 @@ async function loadAllTemas() {
         observeCards(container.querySelectorAll('.card-animated'));
     } catch (error) {
         container.innerHTML = '<p class="text-red-500 text-center">Error cargando temas</p>';
+    }
+}
+
+/**
+ * Carga navegacion entre campanas (Anterior/Siguiente)
+ */
+async function loadCampanaNavigation(currentId) {
+    const prevContainer = document.getElementById('prev-campana-link');
+    const nextContainer = document.getElementById('next-campana-link');
+
+    if (!prevContainer || !nextContainer) return;
+
+    try {
+        const allCampanas = await getCampanas();
+        const currentIndex = allCampanas.findIndex(c => c.id === currentId);
+
+        if (currentIndex === -1) return;
+
+        // Campana Anterior
+        if (currentIndex > 0) {
+            const prev = allCampanas[currentIndex - 1];
+            prevContainer.innerHTML = `
+                <a href="campana.html?id=${prev.id}" class="group flex items-center gap-3 text-left">
+                    <div class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"></path></svg>
+                    </div>
+                    <div>
+                        <span class="text-xs text-gray-500 uppercase tracking-wider">Anterior</span>
+                        <div class="font-semibold text-gray-800 line-clamp-1">${prev.nombre}</div>
+                    </div>
+                </a>
+            `;
+        }
+
+        // Campana Siguiente
+        if (currentIndex < allCampanas.length - 1) {
+            const next = allCampanas[currentIndex + 1];
+            nextContainer.innerHTML = `
+                <a href="campana.html?id=${next.id}" class="group flex items-center gap-3 text-right justify-end">
+                    <div>
+                        <span class="text-xs text-gray-500 uppercase tracking-wider">Siguiente</span>
+                        <div class="font-semibold text-gray-800 line-clamp-1">${next.nombre}</div>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"></path></svg>
+                    </div>
+                </a>
+            `;
+        }
+    } catch (error) {
+        console.error('[Navigation] Error:', error);
     }
 }
 
