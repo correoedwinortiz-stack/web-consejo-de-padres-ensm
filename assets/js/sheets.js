@@ -138,36 +138,44 @@ async function getConfig(clave) {
  * @returns {Promise<Array>}
  */
 async function getActividades(filtros = {}) {
-    let data = await getSheetData('actividades');
-    console.log('[Sheets] getActividades - datos crudos:', data);
-    console.log('[Sheets] Columnas disponibles:', data.length > 0 ? Object.keys(data[0]) : 'vacio');
+    try {
+        let data = await getSheetData('actividades');
+        if (!data || !Array.isArray(data)) return [];
 
-    // Filtrar solo fechas futuras o de hoy
-    if (filtros.soloFuturas !== false) {
-        const now = new Date();
-        now.setHours(0,0,0,0);
+        // Filtrar por visibilidad primero (siempre)
         data = data.filter(item => {
-            const d = parseDate(item.fecha);
-            return d >= now;
+            if (!item) return false;
+            const visible = (item.visible || '').toLowerCase();
+            return visible === 'si';
         });
-    }
 
-    if (filtros.visible) {
-        data = data.filter(item => (item.visible || '').toLowerCase() === filtros.visible.toLowerCase());
-        console.log('[Sheets] getActividades - filtrado por visible, resultado:', data);
-    }
-    if (filtros.destacado) {
-        data = data.filter(item => (item.destacado || '').toLowerCase() === 'si');
-    }
-    if (filtros.estado) {
-        data = data.filter(item => (item.estado || '').toLowerCase() === filtros.estado.toLowerCase());
-        console.log('[Sheets] getActividades - filtrado por estado="' + filtros.estado + '", resultado:', data);
-    }
-    if (filtros.categoria) {
-        data = data.filter(item => item.categoria === filtros.categoria);
-    }
+        // Filtrar solo fechas futuras o de hoy
+        if (filtros.soloFuturas !== false) {
+            const now = new Date();
+            now.setHours(0, 0, 0, 0);
+            data = data.filter(item => {
+                const d = parseDate(item.fecha);
+                return d.getTime() >= now.getTime();
+            });
+        }
 
-    return data;
+        if (filtros.destacado) {
+            data = data.filter(item => (item.destacado || '').toLowerCase() === 'si');
+        }
+
+        if (filtros.estado) {
+            data = data.filter(item => (item.estado || '').toLowerCase() === filtros.estado.toLowerCase());
+        }
+
+        if (filtros.categoria) {
+            data = data.filter(item => (item.categoria || '').toLowerCase() === filtros.categoria.toLowerCase());
+        }
+
+        return data;
+    } catch (e) {
+        console.error('Error en getActividades:', e);
+        return [];
+    }
 }
 
 /**
@@ -176,14 +184,26 @@ async function getActividades(filtros = {}) {
  * @returns {Promise<Array>}
  */
 async function getComunicados(soloDestacados = false) {
-    let data = await getSheetData('comunicados');
-    data = data.filter(item => (item.visible || '').toLowerCase() === 'si');
+    try {
+        let data = await getSheetData('comunicados');
+        if (!data || !Array.isArray(data)) return [];
 
-    if (soloDestacados) {
-        data = data.filter(item => (item.destacado || '').toLowerCase() === 'si');
+        data = data.filter(item => (item.visible || '').toLowerCase() === 'si');
+
+        if (soloDestacados) {
+            data = data.filter(item => (item.destacado || '').toLowerCase() === 'si');
+        }
+
+        // Ordenar por fecha (mas recientes primero o segun logica)
+        return data.sort((a, b) => {
+            const da = parseDate(a.fecha).getTime();
+            const db = parseDate(b.fecha).getTime();
+            return db - da; // Descendente por defecto para comunicados
+        });
+    } catch (e) {
+        console.error('Error en getComunicados:', e);
+        return [];
     }
-
-    return data.sort((a, b) => parseDate(a.fecha) - parseDate(b.fecha));
 }
 
 /**
