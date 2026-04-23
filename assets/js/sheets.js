@@ -149,19 +149,20 @@ async function getActividades(filtros = {}) {
         });
     }
 
-    if (filtros.visible) {
-        data = data.filter(item => item.visible === filtros.visible);
-        console.log('[Sheets] getActividades - filtrado por visible, resultado:', data);
-    }
+    // Filtro visible por defecto (si no existe la columna, se asume 'si')
+    data = data.filter(item => {
+        if (item.visible === undefined) return true;
+        return (item.visible || '').toLowerCase() === 'si';
+    });
+
     if (filtros.destacado) {
-        data = data.filter(item => item.destacado === 'si');
+        data = data.filter(item => (item.destacado || '').toLowerCase() === 'si');
     }
     if (filtros.estado) {
-        data = data.filter(item => item.estado === filtros.estado);
-        console.log('[Sheets] getActividades - filtrado por estado="' + filtros.estado + '", resultado:', data);
+        data = data.filter(item => (item.estado || '').toLowerCase() === filtros.estado.toLowerCase());
     }
     if (filtros.categoria) {
-        data = data.filter(item => item.categoria === filtros.categoria);
+        data = data.filter(item => (item.categoria || '').toLowerCase() === filtros.categoria.toLowerCase());
     }
 
     return data;
@@ -174,10 +175,13 @@ async function getActividades(filtros = {}) {
  */
 async function getComunicados(soloDestacados = false) {
     let data = await getSheetData('comunicados');
-    data = data.filter(item => item.visible === 'si');
+    data = data.filter(item => {
+        if (item.visible === undefined) return true;
+        return (item.visible || '').toLowerCase() === 'si';
+    });
 
     if (soloDestacados) {
-        data = data.filter(item => item.destacado === 'si');
+        data = data.filter(item => (item.destacado || '').toLowerCase() === 'si');
     }
 
     return data.sort((a, b) => parseDate(a.fecha) - parseDate(b.fecha));
@@ -189,7 +193,10 @@ async function getComunicados(soloDestacados = false) {
  */
 async function getCampanas() {
     let data = await getSheetData('campanas');
-    return data.filter(item => item.visible === 'si').sort((a, b) => parseInt(a.orden || 0) - parseInt(b.orden || 0));
+    return data.filter(item => {
+        if (item.visible === undefined) return true;
+        return (item.visible || '').toLowerCase() === 'si';
+    }).sort((a, b) => parseInt(a.orden || 0) - parseInt(b.orden || 0));
 }
 
 /**
