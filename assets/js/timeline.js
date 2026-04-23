@@ -17,8 +17,17 @@ function renderTimeline(actividades, containerId) {
     // Guardar para filtrado
     window.timelineActividades = actividades || [];
 
-    // Ordenar por fecha
-    const sorted = [...window.timelineActividades].sort((a, b) => parseDate(a.fecha) - parseDate(b.fecha));
+    // Ordenar por fecha (vacias al final)
+    const sorted = [...window.timelineActividades].sort((a, b) => {
+        const fechaA = a.fecha?.trim() || '';
+        const fechaB = b.fecha?.trim() || '';
+
+        if (!fechaA && !fechaB) return 0;
+        if (!fechaA) return 1;
+        if (!fechaB) return -1;
+
+        return new Date(fechaA) - new Date(fechaB);
+    });
 
     renderTimelineByPeriod(sorted, containerId);
 
@@ -106,7 +115,7 @@ function filterTimeline(period) {
     });
 
     // Ordenar por fecha
-    filtered.sort((a, b) => parseDate(a.fecha) - parseDate(b.fecha));
+    filtered.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
 
     renderTimelineByPeriod(filtered, 'timeline-container');
 }
@@ -131,9 +140,10 @@ function getPeriodColor(periodo) {
 function formatDate(dateStr) {
     if (!dateStr || !dateStr.trim()) return '';
 
-        // Usar el nuevo parseDate robusto
-        const date = parseDate(dateStr);
-        if (isNaN(date.getTime()) || date.getTime() === 0) return dateStr;
+    try {
+        // Append noon to avoid timezone-shifted day changes
+        const date = new Date(dateStr + 'T12:00:00');
+        if (isNaN(date.getTime())) return dateStr;
 
         const options = { day: 'numeric', month: 'short', year: 'numeric' };
         return date.toLocaleDateString('es-CO', options);
@@ -173,7 +183,14 @@ function renderTimelineHorizontal(actividades, containerId) {
         return;
     }
 
-    const sorted = [...actividades].sort((a, b) => parseDate(a.fecha) - parseDate(b.fecha));
+    const sorted = [...actividades].sort((a, b) => {
+        const fechaA = a.fecha?.trim() || '';
+        const fechaB = b.fecha?.trim() || '';
+        if (!fechaA && !fechaB) return 0;
+        if (!fechaA) return 1;
+        if (!fechaB) return -1;
+        return new Date(fechaA) - new Date(fechaB);
+    });
 
     let html = '<div class="timeline-horizontal">';
 

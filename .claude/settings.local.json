@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s \"https://docs.google.com/spreadsheets/d/1AxVIB1Kp8SK1Yvw356Pl3GjvzOIkq0g1kng_8YmnA2s/gviz/tq?tqx=out:csv&sheet=actividades\")",
+      "Bash(curl -s \"https://docs.google.com/spreadsheets/d/1AxVIB1Kp8SK1Yvw356Pl3GjvzOIkq0g1kng_8YmnA2s/gviz/tq?tqx=out:csv&sheet=comunicados\")"
+    ]
+  }
+}

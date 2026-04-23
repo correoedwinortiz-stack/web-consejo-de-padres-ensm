@@ -66,11 +66,20 @@ function parseCSVLine(line) {
     let current = '', inQuotes = false;
     for (let i = 0; i < line.length; i++) {
         const char = line[i];
-        if (char === '"') inQuotes = !inQuotes;
-        else if (char === ',' && !inQuotes) {
+        const nextChar = line[i + 1];
+
+        if (char === '"' && nextChar === '"') {
+            // Comillas escapadas "" dentro de campo
+            current += '"';
+            i++; // Saltar siguiente comilla
+        } else if (char === '"') {
+            inQuotes = !inQuotes;
+        } else if (char === ',' && !inQuotes) {
             result.push(current);
             current = '';
-        } else current += char;
+        } else {
+            current += char;
+        }
     }
     result.push(current);
     return result;
@@ -85,11 +94,12 @@ async function getConfig(clave) {
 async function getActividades(filtros = {}) {
     try {
         let data = await getSheetData('actividades');
-        
-        // Filtro visible opcional
+
+        // Filtro visible opcional (solo si el campo existe)
         data = data.filter(item => {
             if (!item) return false;
-            if (item.visible === undefined) return true;
+            // Si no hay campo visible, no filtrar por esto
+            if (item.visible === undefined || item.visible === '') return true;
             return (item.visible || '').toLowerCase() === 'si';
         });
 
