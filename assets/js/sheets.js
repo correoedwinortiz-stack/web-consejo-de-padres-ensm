@@ -135,37 +135,39 @@ async function getConfig(clave) {
  * @returns {Promise<Array>}
  */
 async function getActividades(filtros = {}) {
-    let data = await getSheetData('actividades');
-    console.log('[Sheets] getActividades - datos crudos:', data);
-    console.log('[Sheets] Columnas disponibles:', data.length > 0 ? Object.keys(data[0]) : 'vacio');
-
-    // Filtrar solo fechas futuras o de hoy
-    if (filtros.soloFuturas !== false) {
-        const now = new Date();
-        now.setHours(0,0,0,0);
+    try {
+        let data = await getSheetData('actividades');
+        
+        // Filtro visible por defecto (si no existe la columna, se asume 'si')
         data = data.filter(item => {
-            const d = parseDate(item.fecha);
-            return d >= now;
+            if (!item) return false;
+            if (item.visible === undefined) return true;
+            return (item.visible || '').toLowerCase() === 'si';
         });
-    }
 
-    // Filtro visible por defecto (si no existe la columna, se asume 'si')
-    data = data.filter(item => {
-        if (item.visible === undefined) return true;
-        return (item.visible || '').toLowerCase() === 'si';
-    });
+        if (filtros.soloFuturas !== false) {
+            const now = new Date();
+            now.setHours(0,0,0,0);
+            data = data.filter(item => parseDate(item.fecha) >= now);
+        }
 
-    if (filtros.destacado) {
-        data = data.filter(item => (item.destacado || '').toLowerCase() === 'si');
-    }
-    if (filtros.estado) {
-        data = data.filter(item => (item.estado || '').toLowerCase() === filtros.estado.toLowerCase());
-    }
-    if (filtros.categoria) {
-        data = data.filter(item => (item.categoria || '').toLowerCase() === filtros.categoria.toLowerCase());
-    }
+        if (filtros.destacado) {
+            data = data.filter(item => (item.destacado || '').toLowerCase() === 'si');
+        }
 
-    return data;
+        if (filtros.estado) {
+            data = data.filter(item => (item.estado || '').toLowerCase() === filtros.estado.toLowerCase());
+        }
+
+        if (filtros.categoria) {
+            data = data.filter(item => (item.categoria || '').toLowerCase() === filtros.categoria.toLowerCase());
+        }
+
+        return data.sort((a, b) => parseDate(a.fecha) - parseDate(b.fecha));
+    } catch (error) {
+        console.error('Error en getActividades:', error);
+        return [];
+    }
 }
 
 /**
@@ -174,17 +176,22 @@ async function getActividades(filtros = {}) {
  * @returns {Promise<Array>}
  */
 async function getComunicados(soloDestacados = false) {
-    let data = await getSheetData('comunicados');
-    data = data.filter(item => {
-        if (item.visible === undefined) return true;
-        return (item.visible || '').toLowerCase() === 'si';
-    });
+    try {
+        let data = await getSheetData('comunicados');
+        data = data.filter(item => {
+            if (item.visible === undefined) return true;
+            return (item.visible || '').toLowerCase() === 'si';
+        });
 
-    if (soloDestacados) {
-        data = data.filter(item => (item.destacado || '').toLowerCase() === 'si');
+        if (soloDestacados) {
+            data = data.filter(item => (item.destacado || '').toLowerCase() === 'si');
+        }
+
+        return data.sort((a, b) => parseDate(b.fecha) - parseDate(a.fecha));
+    } catch (error) {
+        console.error('Error en getComunicados:', error);
+        return [];
     }
-
-    return data.sort((a, b) => parseDate(a.fecha) - parseDate(b.fecha));
 }
 
 /**

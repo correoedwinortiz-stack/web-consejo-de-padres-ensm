@@ -217,7 +217,7 @@ async function loadActividadesDestacadas() {
     try {
         const actividades = await getActividades({ destacado: 'si' });
         // Ordenar por fecha ascendente y limitar a 4 mas proximas
-        actividades.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+        actividades.sort((a, b) => parseDate(a.fecha) - parseDate(b.fecha));
         const limited = actividades.slice(0, 4);
 
         if (limited.length === 0) {
