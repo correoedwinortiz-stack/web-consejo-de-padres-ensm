@@ -355,7 +355,7 @@ async function loadAllCampanas() {
         document.getElementById('videos-section').classList.add('hidden');
         document.getElementById('juegos-section').classList.add('hidden');
         document.getElementById('recursos-section').classList.add('hidden');
-        document.getElementById('temas-section').classList.add('hidden');
+        if (document.getElementById('campana-navigation')) document.getElementById('campana-navigation').classList.add('hidden');
     } catch (error) {
         console.error('[Campana] Error:', error);
         container.innerHTML = '<p class="text-red-500 text-center">Error cargando campañas</p>';
@@ -427,7 +427,7 @@ async function loadCampanaData() {
         document.getElementById('videos-section').classList.remove('hidden');
         document.getElementById('juegos-section').classList.remove('hidden');
         document.getElementById('recursos-section').classList.remove('hidden');
-        document.getElementById('recursos-section').classList.remove('hidden');
+        if (document.getElementById('campana-navigation')) document.getElementById('campana-navigation').classList.remove('hidden');
 
         // Cargar contenido en paralelo
         await Promise.all([
