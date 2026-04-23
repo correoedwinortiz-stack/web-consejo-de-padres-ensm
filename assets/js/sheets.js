@@ -68,21 +68,29 @@ function parseCSV(csvText) {
 
     if (lines.length === 0) return [];
 
-    // Extraer headers de la primera linea (formato: "clave1","clave2",...)
+    // Extraer headers de la primera linea
     const headerMatch = lines[0].match(/(".*?"|[^,]+)(?:,(".*?"|[^,]+))*$/);
     if (!headerMatch) return [];
 
-    const headers = parseCSVLine(headerMatch[0]);
+    const rawHeaders = parseCSVLine(headerMatch[0]);
+    const headers = rawHeaders.map((h, index) => {
+        let clean = h.replace(/^"|"$/g, '').trim().toLowerCase();
+        // Si el primer encabezado esta vacio, asumimos que es 'id'
+        if (clean === '' && index === 0) return 'id';
+        return clean;
+    });
 
     // Parsear filas de datos
     const data = [];
     for (let i = 1; i < lines.length; i++) {
         const values = parseCSVLine(lines[i]);
-        if (values.length === headers.length) {
+        if (values.length >= headers.length) {
             const row = {};
             headers.forEach((header, index) => {
-                // Limpiar comillas y espacios
-                row[header] = values[index].replace(/^"|"$/g, '').trim();
+                if (header) {
+                    const val = values[index] ? values[index].replace(/^"|"$/g, '').trim() : '';
+                    row[header] = val;
+                }
             });
             data.push(row);
         }
