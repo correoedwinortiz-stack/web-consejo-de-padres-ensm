@@ -420,7 +420,7 @@ async function loadCampanaData() {
 
         // Ocultar modo lista, mostrar modo detalle
         const toHide = ['campana-search-section', 'campanas-grid-section'];
-        const toShow = ['hero-campana', 'campana-about-section', 'videos-section', 'juegos-section', 'recursos-section', 'temas-section'];
+        const toShow = ['hero-campana', 'campana-about-section', 'videos-section', 'juegos-section', 'recursos-section'];
         
         toHide.forEach(id => {
             const el = document.getElementById(id);
@@ -436,7 +436,6 @@ async function loadCampanaData() {
             loadCampanaVideos(idCampana).catch(e => console.error('Error videos:', e)),
             loadCampanaJuegos(idCampana).catch(e => console.error('Error juegos:', e)),
             loadCampanaRecursos(idCampana).catch(e => console.error('Error recursos:', e)),
-            loadTemasRelacionados().catch(e => console.error('Error temas:', e)),
             loadCampanaNavigation(idCampana).catch(e => console.error('Error nav:', e))
         ]);
     } catch (error) {
@@ -597,28 +596,6 @@ async function loadCampanaRecursos(idCampana) {
     }
 }
 
-/**
- * Carga temas relacionados
- */
-async function loadTemasRelacionados() {
-    const container = document.getElementById('temas-relacionados');
-    if (!container) return;
-
-    try {
-        const temas = await getTemasManual({ categoria: 'convivencia', visible: 'si' });
-        const limited = temas.slice(0, 4);
-
-        if (limited.length === 0) {
-            container.innerHTML = '<p class="text-gray-500">No hay temas relacionados</p>';
-            return;
-        }
-
-        container.innerHTML = limited.map(tema => createTemaCard(tema)).join('');
-    } catch (error) {
-        console.error('[Campana] Error temas:', error);
-        container.innerHTML = '<p class="text-red-500">Error cargando temas</p>';
-    }
-}
 
 /**
  * Carga todos los temas para manual/index.html
