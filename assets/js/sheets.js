@@ -189,6 +189,14 @@ async function getRecursosCampana(idCampana) {
     return data.filter(item => item.categoria === idCampana).sort((a, b) => parseInt(a.orden || 0) - parseInt(b.orden || 0));
 }
 
+async function getRecursos(categoria = null) {
+    let data = await getSheetData('recursos');
+    if (categoria) {
+        data = data.filter(item => item.categoria === categoria);
+    }
+    return data.sort((a, b) => parseInt(a.orden || 0) - parseInt(b.orden || 0));
+}
+
 async function getEnlaces(grupo = null) {
     let data = await getSheetData('enlaces');
     data = data.filter(item => {
