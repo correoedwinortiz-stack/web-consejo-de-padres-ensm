@@ -105,8 +105,11 @@ async function getConfig(clave) {
 async function getActividades(filtros = {}) {
     let data = await getSheetData('actividades');
     
-    // Filtro visible case-insensitive
-    data = data.filter(item => (item.visible || '').toLowerCase() === 'si');
+    // Filtro visible opcional (si no existe la columna, se asume 'si')
+    data = data.filter(item => {
+        if (item.visible === undefined) return true;
+        return (item.visible || '').toLowerCase() === 'si';
+    });
 
     if (filtros.soloFuturas !== false) {
         const now = new Date();
@@ -123,7 +126,10 @@ async function getActividades(filtros = {}) {
 
 async function getComunicados(soloDestacados = false) {
     let data = await getSheetData('comunicados');
-    data = data.filter(item => (item.visible || '').toLowerCase() === 'si');
+    data = data.filter(item => {
+        if (item.visible === undefined) return true;
+        return (item.visible || '').toLowerCase() === 'si';
+    });
     if (soloDestacados) {
         data = data.filter(item => (item.destacado || '').toLowerCase() === 'si');
     }
@@ -132,14 +138,19 @@ async function getComunicados(soloDestacados = false) {
 
 async function getCampanas() {
     let data = await getSheetData('campanas');
-    return data.filter(item => (item.visible || '').toLowerCase() === 'si')
-               .sort((a, b) => parseInt(a.orden || 0) - parseInt(b.orden || 0));
+    return data.filter(item => {
+        if (item.visible === undefined) return true;
+        return (item.visible || '').toLowerCase() === 'si';
+    }).sort((a, b) => parseInt(a.orden || 0) - parseInt(b.orden || 0));
 }
 
 async function getTemasManual(filtros = {}) {
     let data = await getSheetData('temas_manual');
     if (filtros.visible !== undefined) {
-        data = data.filter(item => (item.visible || '').toLowerCase() === 'si');
+        data = data.filter(item => {
+            if (item.visible === undefined) return true;
+            return (item.visible || '').toLowerCase() === 'si';
+        });
     }
     if (filtros.categoria) {
         data = data.filter(item => item.categoria === filtros.categoria);
@@ -149,8 +160,10 @@ async function getTemasManual(filtros = {}) {
 
 async function getBloquesManual(temaId) {
     let data = await getSheetData('bloques_manual');
-    return data.filter(item => item.tema_id === temaId && (item.visible || '').toLowerCase() === 'si')
-               .sort((a, b) => parseInt(a.orden || 0) - parseInt(b.orden || 0));
+    return data.filter(item => {
+        if (item.visible === undefined) return true;
+        return (item.visible || '').toLowerCase() === 'si';
+    }).sort((a, b) => parseInt(a.orden || 0) - parseInt(b.orden || 0));
 }
 
 async function getTemaBySlug(slug) {
@@ -160,30 +173,46 @@ async function getTemaBySlug(slug) {
 
 async function getCampanaById(idCampana) {
     const data = await getSheetData('campanas');
-    return data.find(item => item.id === idCampana && (item.visible || '').toLowerCase() === 'si') || null;
+    return data.find(item => {
+        if (item.id !== idCampana) return false;
+        if (item.visible === undefined) return true;
+        return (item.visible || '').toLowerCase() === 'si';
+    }) || null;
 }
 
 async function getVideosCampana(idCampana) {
     let data = await getSheetData('videos');
-    return data.filter(item => item.campana === idCampana && (item.visible || '').toLowerCase() === 'si')
-               .sort((a, b) => parseInt(a.orden || 0) - parseInt(b.orden || 0));
+    return data.filter(item => {
+        if (item.campana !== idCampana) return false;
+        if (item.visible === undefined) return true;
+        return (item.visible || '').toLowerCase() === 'si';
+    }).sort((a, b) => parseInt(a.orden || 0) - parseInt(b.orden || 0));
 }
 
 async function getJuegosCampana(idCampana) {
     let data = await getSheetData('juegos');
-    return data.filter(item => item.campana === idCampana && (item.visible || '').toLowerCase() === 'si')
-               .sort((a, b) => parseInt(a.orden || 0) - parseInt(b.orden || 0));
+    return data.filter(item => {
+        if (item.campana !== idCampana) return false;
+        if (item.visible === undefined) return true;
+        return (item.visible || '').toLowerCase() === 'si';
+    }).sort((a, b) => parseInt(a.orden || 0) - parseInt(b.orden || 0));
 }
 
 async function getRecursosCampana(idCampana) {
     let data = await getSheetData('recursos');
-    return data.filter(item => item.categoria === idCampana && (item.visible || '').toLowerCase() === 'si')
-               .sort((a, b) => parseInt(a.orden || 0) - parseInt(b.orden || 0));
+    return data.filter(item => {
+        if (item.categoria !== idCampana) return false;
+        if (item.visible === undefined) return true;
+        return (item.visible || '').toLowerCase() === 'si';
+    }).sort((a, b) => parseInt(a.orden || 0) - parseInt(b.orden || 0));
 }
 
 async function getEnlaces(grupo = null) {
     let data = await getSheetData('enlaces');
-    data = data.filter(item => (item.visible || '').toLowerCase() === 'si');
+    data = data.filter(item => {
+        if (item.visible === undefined) return true;
+        return (item.visible || '').toLowerCase() === 'si';
+    });
     if (grupo) {
         data = data.filter(item => (item.grupo || '').toLowerCase() === grupo.toLowerCase());
     }
