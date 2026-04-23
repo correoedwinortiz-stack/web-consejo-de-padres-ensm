@@ -425,12 +425,12 @@ async function loadCampanaData() {
             if (el) el.classList.remove('hidden');
         });
 
-        // Cargar contenido en paralelo
+        // Cargar contenido en paralelo de forma segura (si uno falla, los otros siguen)
         await Promise.all([
-            loadCampanaVideos(idCampana),
-            loadCampanaJuegos(idCampana),
-            loadCampanaRecursos(idCampana),
-            loadCampanaNavigation(idCampana)
+            loadCampanaVideos(idCampana).catch(e => console.error('Error videos:', e)),
+            loadCampanaJuegos(idCampana).catch(e => console.error('Error juegos:', e)),
+            loadCampanaRecursos(idCampana).catch(e => console.error('Error recursos:', e)),
+            loadCampanaNavigation(idCampana).catch(e => console.error('Error nav:', e))
         ]);
     } catch (error) {
         console.error('[Campana] Error general:', error);
@@ -524,10 +524,6 @@ async function loadCampanaVideos(idCampana) {
             return;
         }
 
-        // Mostrar boton solo si hay videos
-        const btn = document.getElementById('btn-videos');
-        if (btn) btn.classList.remove('hidden');
-
         container.innerHTML = videos.map(vid => createVideoCard(vid)).join('');
         initVideoModal();
     } catch (error) {
@@ -552,10 +548,6 @@ async function loadCampanaJuegos(idCampana) {
             return;
         }
 
-        // Mostrar boton solo si hay juegos
-        const btn = document.getElementById('btn-juegos');
-        if (btn) btn.classList.remove('hidden');
-
         container.innerHTML = juegos.map(juego => createJuegoCard(juego)).join('');
     } catch (error) {
         console.error('[Campana] Error juegos:', error);
@@ -578,10 +570,6 @@ async function loadCampanaRecursos(idCampana) {
             container.innerHTML = '<p class="text-gray-500 text-center py-8">No hay recursos descargables para esta campana.</p>';
             return;
         }
-
-        // Mostrar boton solo si hay recursos
-        const btn = document.getElementById('btn-recursos');
-        if (btn) btn.classList.remove('hidden');
 
         container.innerHTML = recursos.map(rec => createRecursoCard(rec)).join('');
     } catch (error) {
