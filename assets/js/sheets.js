@@ -29,6 +29,36 @@ async function getSheetData(sheetName) {
 }
 
 /**
+ * Parsea una cadena de fecha de forma robusta
+ * Soporta YYYY-MM-DD, DD/MM/YYYY y objetos Date
+ */
+function parseDate(dateStr) {
+    if (!dateStr) return new Date(0);
+    if (dateStr instanceof Date) return dateStr;
+    
+    const s = String(dateStr).trim();
+    if (!s) return new Date(0);
+
+    // Intentar formato ISO (YYYY-MM-DD)
+    if (/^\d{4}-\d{2}-\d{2}/.test(s)) {
+        return new Date(s + 'T12:00:00');
+    }
+    
+    // Intentar formato DD/MM/YYYY
+    const parts = s.split('/');
+    if (parts.length === 3) {
+        let day = parseInt(parts[0]);
+        let month = parseInt(parts[1]);
+        let year = parseInt(parts[2]);
+        if (year < 100) year += 2000;
+        return new Date(year, month - 1, day, 12, 0, 0);
+    }
+    
+    const d = new Date(s);
+    return isNaN(d.getTime()) ? new Date(0) : d;
+}
+
+/**
  * Parsea texto CSV a array de objetos
  * @param {string} csvText - Contenido CSV
  * @returns {Array} Array de objetos
@@ -111,8 +141,12 @@ async function getActividades(filtros = {}) {
 
     // Filtrar solo fechas futuras o de hoy
     if (filtros.soloFuturas !== false) {
-        const today = new Date().toISOString().split('T')[0];
-        data = data.filter(item => item.fecha >= today);
+        const now = new Date();
+        now.setHours(0,0,0,0);
+        data = data.filter(item => {
+            const d = parseDate(item.fecha);
+            return d >= now;
+        });
     }
 
     if (filtros.visible) {
@@ -146,7 +180,7 @@ async function getComunicados(soloDestacados = false) {
         data = data.filter(item => item.destacado === 'si');
     }
 
-    return data.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+    return data.sort((a, b) => parseDate(a.fecha) - parseDate(b.fecha));
 }
 
 /**

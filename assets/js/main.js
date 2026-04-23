@@ -456,6 +456,10 @@ function showCampanaError(mensaje) {
     if (heroBadge) heroBadge.textContent = 'Error';
     if (heroDesc) heroDesc.innerHTML = mensaje + '<br><a href="index.html" class="btn-primary mt-4 inline-block">Volver al inicio</a>';
 
+    // Asegurar que el hero sea visible para mostrar el error
+    const heroSection = document.getElementById('hero-campana');
+    if (heroSection) heroSection.classList.remove('hidden');
+
     // Ocultar demas secciones
     allSections.forEach(section => {
         if (!section.classList.contains('hero') && !section.classList.contains('footer') && !section.classList.contains('top-bar') && !section.classList.contains('navbar')) {
@@ -881,7 +885,7 @@ function createCampanaCard(camp) {
                 <h3 class="text-xl font-bold text-gray-800 mb-2">${camp.nombre}</h3>
                 <p class="text-sm text-primary font-medium mb-2">${camp.subtitulo || ''}</p>
                 <p class="text-gray-600 text-sm mb-4">${camp.descripcion || ''}</p>
-                ${camp.enlace ? `<a href="${camp.enlace}" class="btn-primary text-sm">Ver mas</a>` : ''}
+                <a href="${camp.enlace || `campana.html?id=${camp.id}`}" class="btn-primary text-sm">Ver mas</a>
             </div>
         </div>
     `;
