@@ -427,14 +427,13 @@ async function loadCampanaData() {
         document.getElementById('videos-section').classList.remove('hidden');
         document.getElementById('juegos-section').classList.remove('hidden');
         document.getElementById('recursos-section').classList.remove('hidden');
-        document.getElementById('temas-section').classList.remove('hidden');
+        document.getElementById('recursos-section').classList.remove('hidden');
 
         // Cargar contenido en paralelo
         await Promise.all([
             loadCampanaVideos(idCampana),
             loadCampanaJuegos(idCampana),
-            loadCampanaRecursos(idCampana),
-            loadTemasRelacionados()
+            loadCampanaRecursos(idCampana)
         ]);
     } catch (error) {
         console.error('[Campana] Error general:', error);
