@@ -349,12 +349,13 @@ async function loadAllCampanas() {
         container.innerHTML = campanas.map(camp => createCampanaCard(camp)).join('');
         observeCards(container.querySelectorAll('.card-animated'));
 
-        // Ocultar secciones de detalle de forma segura
-        const sectionsToHide = ['hero-campana', 'campana-about-section', 'videos-section', 'juegos-section', 'recursos-section', 'campana-navigation'];
-        sectionsToHide.forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.classList.add('hidden');
-        });
+        // Ocultar secciones de detalle (hero, about, videos, juegos, recursos, temas)
+        document.getElementById('hero-campana').classList.add('hidden');
+        document.getElementById('campana-about-section').classList.add('hidden');
+        document.getElementById('videos-section').classList.add('hidden');
+        document.getElementById('juegos-section').classList.add('hidden');
+        document.getElementById('recursos-section').classList.add('hidden');
+        document.getElementById('temas-section').classList.add('hidden');
     } catch (error) {
         console.error('[Campana] Error:', error);
         container.innerHTML = '<p class="text-red-500 text-center">Error cargando campañas</p>';
@@ -419,18 +420,21 @@ async function loadCampanaData() {
         updateCampanaUI(campana);
 
         // Ocultar modo lista, mostrar modo detalle
-        const sectionsToShow = ['hero-campana', 'campana-about-section', 'videos-section', 'juegos-section', 'recursos-section', 'campana-navigation'];
-        sectionsToShow.forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.classList.remove('hidden');
-        });
+        document.getElementById('campana-search-section').classList.add('hidden');
+        document.getElementById('campanas-grid-section').classList.add('hidden');
+        document.getElementById('hero-campana').classList.remove('hidden');
+        document.getElementById('campana-about-section').classList.remove('hidden');
+        document.getElementById('videos-section').classList.remove('hidden');
+        document.getElementById('juegos-section').classList.remove('hidden');
+        document.getElementById('recursos-section').classList.remove('hidden');
+        document.getElementById('temas-section').classList.remove('hidden');
 
-        // Cargar contenido en paralelo de forma segura (si uno falla, los otros siguen)
+        // Cargar contenido en paralelo
         await Promise.all([
-            loadCampanaVideos(idCampana).catch(e => console.error('Error videos:', e)),
-            loadCampanaJuegos(idCampana).catch(e => console.error('Error juegos:', e)),
-            loadCampanaRecursos(idCampana).catch(e => console.error('Error recursos:', e)),
-            loadCampanaNavigation(idCampana).catch(e => console.error('Error nav:', e))
+            loadCampanaVideos(idCampana),
+            loadCampanaJuegos(idCampana),
+            loadCampanaRecursos(idCampana),
+            loadTemasRelacionados()
         ]);
     } catch (error) {
         console.error('[Campana] Error general:', error);
@@ -567,7 +571,7 @@ async function loadCampanaRecursos(idCampana) {
         console.log('[Campana] Recursos cargados:', recursos.length);
 
         if (recursos.length === 0) {
-            container.innerHTML = '<p class="text-gray-500 text-center py-8">No hay recursos descargables para esta campana.</p>';
+            container.innerHTML = '<p class="text-gray-500 text-center py-8">No hay recursos disponibles para esta campana.</p>';
             return;
         }
 
@@ -623,57 +627,6 @@ async function loadAllTemas() {
         observeCards(container.querySelectorAll('.card-animated'));
     } catch (error) {
         container.innerHTML = '<p class="text-red-500 text-center">Error cargando temas</p>';
-    }
-}
-
-/**
- * Carga navegacion entre campanas (Anterior/Siguiente)
- */
-async function loadCampanaNavigation(currentId) {
-    const prevContainer = document.getElementById('prev-campana-link');
-    const nextContainer = document.getElementById('next-campana-link');
-
-    if (!prevContainer || !nextContainer) return;
-
-    try {
-        const allCampanas = await getCampanas();
-        const currentIndex = allCampanas.findIndex(c => c.id === currentId);
-
-        if (currentIndex === -1) return;
-
-        // Campana Anterior
-        if (currentIndex > 0) {
-            const prev = allCampanas[currentIndex - 1];
-            prevContainer.innerHTML = `
-                <a href="campana.html?id=${prev.id}" class="group flex items-center gap-3 text-left">
-                    <div class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"></path></svg>
-                    </div>
-                    <div>
-                        <span class="text-xs text-gray-500 uppercase tracking-wider">Anterior</span>
-                        <div class="font-semibold text-gray-800 line-clamp-1">${prev.nombre}</div>
-                    </div>
-                </a>
-            `;
-        }
-
-        // Campana Siguiente
-        if (currentIndex < allCampanas.length - 1) {
-            const next = allCampanas[currentIndex + 1];
-            nextContainer.innerHTML = `
-                <a href="campana.html?id=${next.id}" class="group flex items-center gap-3 text-right justify-end">
-                    <div>
-                        <span class="text-xs text-gray-500 uppercase tracking-wider">Siguiente</span>
-                        <div class="font-semibold text-gray-800 line-clamp-1">${next.nombre}</div>
-                    </div>
-                    <div class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"></path></svg>
-                    </div>
-                </a>
-            `;
-        }
-    } catch (error) {
-        console.error('[Navigation] Error:', error);
     }
 }
 

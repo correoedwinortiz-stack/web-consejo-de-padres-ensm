@@ -160,14 +160,10 @@
                     ...
                 </p>
                 <div id="hero-botones" class="flex flex-wrap gap-4">
-                    <a href="#videos-section" id="btn-videos" class="btn-primary">Ver multimedia</a>
-                    <a href="#juegos-section" id="btn-juegos"
+                    <a href="#videos-section" class="btn-primary">Ver multimedia</a>
+                    <a href="#juegos-section"
                         class="btn-outline border-white text-white hover:bg-white hover:text-primary">
                         Explorar juegos
-                    </a>
-                    <a href="#recursos-section" id="btn-recursos"
-                        class="btn-outline border-white text-white hover:bg-white hover:text-primary">
-                        Recursos
                     </a>
                 </div>
             </div>
@@ -223,28 +219,23 @@
         </div>
     </section>
 
-
-    <!-- Navegacion entre campanas -->
-    <section id="campana-navigation" class="py-12 bg-light border-t border-gray-100">
+    <!-- Temas relacionados del Manual -->
+    <section id="temas-section" class="py-16 md:py-24 bg-light hidden">
         <div class="max-w-7xl mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-                <div id="prev-campana-link" class="w-full md:w-auto">
-                    <!-- Dinamico -->
-                </div>
-                
-                <div class="text-center">
-                    <a href="#hero-campana" class="text-primary hover:underline flex items-center gap-2 transition-all">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 15l7-7 7 7"></path></svg>
-                        Volver arriba
-                    </a>
-                </div>
+            <h2 class="section-title text-center">Temas relacionados del Manual</h2>
+            <p class="text-gray-600 text-center mb-12">Continua explorando el Manual de Convivencia</p>
 
-                <div id="next-campana-link" class="w-full md:w-auto text-right">
-                    <!-- Dinamico -->
-                </div>
+            <div id="temas-relacionados" class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Cargado dinamicamente -->
+            </div>
+
+            <div class="text-center mt-8">
+                <a href="manual/index.html" class="btn-primary">Ver todos los temas</a>
             </div>
         </div>
     </section>
+
+    <!-- Footer -->
     <footer class="footer py-12">
         <div class="max-w-7xl mx-auto px-4">
             <div class="grid md:grid-cols-3 gap-8 mb-8">
