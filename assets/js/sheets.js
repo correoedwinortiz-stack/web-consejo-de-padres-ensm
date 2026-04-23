@@ -64,15 +64,11 @@ function parseDate(dateStr) {
  * @returns {Array} Array de objetos
  */
 function parseCSV(csvText) {
-    const lines = csvText.split('\n').filter(line => line.trim() !== '');
-
+    const lines = csvText.split('\n').map(l => l.trim()).filter(l => l !== '');
     if (lines.length === 0) return [];
 
-    // Extraer headers de la primera linea
-    const headerMatch = lines[0].match(/(".*?"|[^,]+)(?:,(".*?"|[^,]+))*$/);
-    if (!headerMatch) return [];
-
-    const rawHeaders = parseCSVLine(headerMatch[0]);
+    // Extraer headers de la primera linea de forma simple
+    const rawHeaders = parseCSVLine(lines[0]);
     const headers = rawHeaders.map((h, index) => {
         let clean = h.replace(/^"|"$/g, '').trim().toLowerCase();
         // Si el primer encabezado esta vacio, asumimos que es 'id'
@@ -84,16 +80,15 @@ function parseCSV(csvText) {
     const data = [];
     for (let i = 1; i < lines.length; i++) {
         const values = parseCSVLine(lines[i]);
-        if (values.length >= headers.length) {
-            const row = {};
-            headers.forEach((header, index) => {
-                if (header) {
-                    const val = values[index] ? values[index].replace(/^"|"$/g, '').trim() : '';
-                    row[header] = val;
-                }
-            });
-            data.push(row);
-        }
+        const row = {};
+        headers.forEach((header, index) => {
+            if (header) {
+                // Limpiar comillas y espacios, manejar valores nulos
+                let val = values[index] ? values[index].replace(/^"|"$/g, '').trim() : '';
+                row[header] = val;
+            }
+        });
+        data.push(row);
     }
 
     return data;
@@ -158,7 +153,7 @@ async function getActividades(filtros = {}) {
     }
 
     if (filtros.visible) {
-        data = data.filter(item => item.visible === filtros.visible);
+        data = data.filter(item => (item.visible || '').toLowerCase() === filtros.visible.toLowerCase());
         console.log('[Sheets] getActividades - filtrado por visible, resultado:', data);
     }
     if (filtros.destacado) {
@@ -197,7 +192,7 @@ async function getComunicados(soloDestacados = false) {
  */
 async function getCampanas() {
     let data = await getSheetData('campanas');
-    return data.filter(item => item.visible === 'si').sort((a, b) => parseInt(a.orden || 0) - parseInt(b.orden || 0));
+    return data.filter(item => (item.visible || '').toLowerCase() === 'si').sort((a, b) => parseInt(a.orden || 0) - parseInt(b.orden || 0));
 }
 
 /**
@@ -262,7 +257,7 @@ async function getTemasManual(filtros = {}) {
         data = data.filter(item => item.categoria === filtros.categoria);
     }
     if (filtros.visible !== undefined) {
-        data = data.filter(item => item.visible === filtros.visible);
+        data = data.filter(item => (item.visible || '').toLowerCase() === filtros.visible.toLowerCase());
         console.log('[Sheets] getTemasManual - filtrado por visible="' + filtros.visible + '", resultado:', data);
     }
 
@@ -276,7 +271,7 @@ async function getTemasManual(filtros = {}) {
  */
 async function getBloquesManual(temaId) {
     let data = await getSheetData('bloques_manual');
-    data = data.filter(item => item.tema_id === temaId && item.visible === 'si');
+    data = data.filter(item => item.tema_id === temaId && (item.visible || '').toLowerCase() === 'si');
 
     return data.sort((a, b) => parseInt(a.orden || 0) - parseInt(b.orden || 0));
 }
@@ -299,7 +294,7 @@ async function getTemaBySlug(slug) {
 async function getCampanaById(idCampana) {
     const data = await getSheetData('campanas');
     console.log('[Sheets] getCampanaById - id:', idCampana, 'datos:', data);
-    return data.find(item => item.id === idCampana && item.visible === 'si') || null;
+    return data.find(item => item.id === idCampana && (item.visible || '').toLowerCase() === 'si') || null;
 }
 
 /**
@@ -332,7 +327,7 @@ async function getJuegosCampana(idCampana) {
 async function getRecursosCampana(idCampana) {
     let data = await getSheetData('recursos');
     // Recursos filtran por categoria (campana, plan, comunicado, etc)
-    data = data.filter(item => item.categoria === idCampana && item.visible === 'si');
+    data = data.filter(item => item.categoria === idCampana && (item.visible || '').toLowerCase() === 'si');
     return data.sort((a, b) => parseInt(a.orden || 0) - parseInt(b.orden || 0));
 }
 /**
