@@ -157,10 +157,10 @@ async function getActividades(filtros = {}) {
         console.log('[Sheets] getActividades - filtrado por visible, resultado:', data);
     }
     if (filtros.destacado) {
-        data = data.filter(item => item.destacado === 'si');
+        data = data.filter(item => (item.destacado || '').toLowerCase() === 'si');
     }
     if (filtros.estado) {
-        data = data.filter(item => item.estado === filtros.estado);
+        data = data.filter(item => (item.estado || '').toLowerCase() === filtros.estado.toLowerCase());
         console.log('[Sheets] getActividades - filtrado por estado="' + filtros.estado + '", resultado:', data);
     }
     if (filtros.categoria) {
@@ -177,10 +177,10 @@ async function getActividades(filtros = {}) {
  */
 async function getComunicados(soloDestacados = false) {
     let data = await getSheetData('comunicados');
-    data = data.filter(item => item.visible === 'si');
+    data = data.filter(item => (item.visible || '').toLowerCase() === 'si');
 
     if (soloDestacados) {
-        data = data.filter(item => item.destacado === 'si');
+        data = data.filter(item => (item.destacado || '').toLowerCase() === 'si');
     }
 
     return data.sort((a, b) => parseDate(a.fecha) - parseDate(b.fecha));
@@ -202,7 +202,7 @@ async function getCampanas() {
  */
 async function getRecursos(categoria = null) {
     let data = await getSheetData('recursos');
-    data = data.filter(item => item.visible === 'si');
+    data = data.filter(item => (item.visible || '').toLowerCase() === 'si');
 
     if (categoria) {
         data = data.filter(item => item.categoria === categoria);
@@ -218,7 +218,7 @@ async function getRecursos(categoria = null) {
  */
 async function getVideos(campana = null) {
     let data = await getSheetData('videos');
-    data = data.filter(item => item.visible === 'si');
+    data = data.filter(item => (item.visible || '').toLowerCase() === 'si');
 
     if (campana) {
         data = data.filter(item => item.campana === campana);
@@ -234,7 +234,7 @@ async function getVideos(campana = null) {
  */
 async function getJuegos(campana = null) {
     let data = await getSheetData('juegos');
-    data = data.filter(item => item.visible === 'si');
+    data = data.filter(item => (item.visible || '').toLowerCase() === 'si');
 
     if (campana) {
         data = data.filter(item => item.campana === campana);
@@ -304,7 +304,7 @@ async function getCampanaById(idCampana) {
  */
 async function getVideosCampana(idCampana) {
     let data = await getSheetData('videos');
-    data = data.filter(item => item.campana === idCampana && item.visible === 'si');
+    data = data.filter(item => item.campana === idCampana && (item.visible || '').toLowerCase() === 'si');
     return data.sort((a, b) => parseInt(a.orden || 0) - parseInt(b.orden || 0));
 }
 
@@ -315,7 +315,7 @@ async function getVideosCampana(idCampana) {
  */
 async function getJuegosCampana(idCampana) {
     let data = await getSheetData('juegos');
-    data = data.filter(item => item.campana === idCampana && item.visible === 'si');
+    data = data.filter(item => item.campana === idCampana && (item.visible || '').toLowerCase() === 'si');
     return data.sort((a, b) => parseInt(a.orden || 0) - parseInt(b.orden || 0));
 }
 
@@ -337,10 +337,10 @@ async function getRecursosCampana(idCampana) {
  */
 async function getEnlaces(grupo = null) {
     let data = await getSheetData('enlaces');
-    data = data.filter(item => item.visible === 'si');
+    data = data.filter(item => (item.visible || '').toLowerCase() === 'si');
 
     if (grupo) {
-        data = data.filter(item => item.grupo === grupo);
+        data = data.filter(item => (item.grupo || '').toLowerCase() === grupo.toLowerCase());
     }
 
     return data.sort((a, b) => parseInt(a.orden || 0) - parseInt(b.orden || 0));
