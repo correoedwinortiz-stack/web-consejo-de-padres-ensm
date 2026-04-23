@@ -64,21 +64,28 @@ function parseDate(dateStr) {
  * @returns {Array} Array de objetos
  */
 function parseCSV(csvText) {
-    const lines = csvText.split('\n').map(l => l.trim()).filter(l => l !== '');
+    let lines = csvText.split('\n').map(l => l.trim()).filter(l => l !== '');
     if (lines.length === 0) return [];
 
-    // Extraer headers de la primera linea de forma simple
-    const rawHeaders = parseCSVLine(lines[0]);
+    // Buscar la primera fila que parezca un encabezado (que tenga al menos 2 columnas)
+    let headerRowIndex = 0;
+    while (headerRowIndex < lines.length) {
+        const testHeaders = parseCSVLine(lines[headerRowIndex]);
+        if (testHeaders.length > 1) break;
+        headerRowIndex++;
+    }
+
+    if (headerRowIndex >= lines.length) return [];
+
+    const rawHeaders = parseCSVLine(lines[headerRowIndex]);
     const headers = rawHeaders.map((h, index) => {
         let clean = h.replace(/^"|"$/g, '').trim().toLowerCase();
-        // Si el primer encabezado esta vacio, asumimos que es 'id'
         if (clean === '' && index === 0) return 'id';
         return clean;
     });
 
-    // Parsear filas de datos
     const data = [];
-    for (let i = 1; i < lines.length; i++) {
+    for (let i = headerRowIndex + 1; i < lines.length; i++) {
         const values = parseCSVLine(lines[i]);
         const row = {};
         headers.forEach((header, index) => {
