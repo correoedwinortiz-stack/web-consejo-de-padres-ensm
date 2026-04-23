@@ -349,13 +349,12 @@ async function loadAllCampanas() {
         container.innerHTML = campanas.map(camp => createCampanaCard(camp)).join('');
         observeCards(container.querySelectorAll('.card-animated'));
 
-        // Ocultar secciones de detalle (hero, about, videos, juegos, recursos, temas)
-        document.getElementById('hero-campana').classList.add('hidden');
-        document.getElementById('campana-about-section').classList.add('hidden');
-        document.getElementById('videos-section').classList.add('hidden');
-        document.getElementById('juegos-section').classList.add('hidden');
-        document.getElementById('recursos-section').classList.add('hidden');
-        document.getElementById('temas-section').classList.add('hidden');
+        // Ocultar secciones de detalle de forma segura
+        const sectionsToHide = ['hero-campana', 'campana-about-section', 'videos-section', 'juegos-section', 'recursos-section', 'temas-section'];
+        sectionsToHide.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.classList.add('hidden');
+        });
     } catch (error) {
         console.error('[Campana] Error:', error);
         container.innerHTML = '<p class="text-red-500 text-center">Error cargando campañas</p>';
@@ -420,14 +419,17 @@ async function loadCampanaData() {
         updateCampanaUI(campana);
 
         // Ocultar modo lista, mostrar modo detalle
-        document.getElementById('campana-search-section').classList.add('hidden');
-        document.getElementById('campanas-grid-section').classList.add('hidden');
-        document.getElementById('hero-campana').classList.remove('hidden');
-        document.getElementById('campana-about-section').classList.remove('hidden');
-        document.getElementById('videos-section').classList.remove('hidden');
-        document.getElementById('juegos-section').classList.remove('hidden');
-        document.getElementById('recursos-section').classList.remove('hidden');
-        document.getElementById('temas-section').classList.remove('hidden');
+        const toHide = ['campana-search-section', 'campanas-grid-section'];
+        const toShow = ['hero-campana', 'campana-about-section', 'videos-section', 'juegos-section', 'recursos-section', 'temas-section'];
+        
+        toHide.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.classList.add('hidden');
+        });
+        toShow.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.classList.remove('hidden');
+        });
 
         // Cargar contenido en paralelo
         await Promise.all([
