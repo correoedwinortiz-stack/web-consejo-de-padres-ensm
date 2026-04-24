@@ -484,9 +484,6 @@ function updateCampanaUI(campana) {
     const heroTitulo = document.getElementById('hero-titulo');
     if (heroTitulo) heroTitulo.textContent = campana.nombre || 'Campana sin nombre';
 
-    // Descripcion
-    const heroDesc = document.getElementById('hero-descripcion');
-    if (heroDesc) heroDesc.textContent = campana.descripcion || '';
 
     // Descripcion about
     const aboutText = document.getElementById('campana-about-text');
