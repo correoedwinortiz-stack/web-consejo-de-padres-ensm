@@ -95,24 +95,27 @@ class SonariaRadio {
     }
 
     handleError() {
-        if (this.isPlaying) {
-            console.log("Detectado corte en el flujo, reconectando...");
-            this.showStatus('Reconectando...');
-            setTimeout(() => {
-                if (this.isPlaying) this.start();
-            }, 2000);
-        }
+        if (!this.isPlaying) return;
+        
+        console.warn("📡 [Radio] Corte detectado. Reconectando en 5s...");
+        this.showStatus('Reconectando...');
+        
+        if (this.reconnectTimer) clearTimeout(this.reconnectTimer);
+        this.reconnectTimer = setTimeout(() => {
+            if (this.isPlaying) this.start();
+        }, 5000); // Reintento cada 5 segundos
     }
 
     startWatchdog() {
         this.stopWatchdog();
+        this.lastTime = -1;
         this.stallCount = 0;
         this.watchdogInterval = setInterval(() => {
             if (this.isPlaying && !this.audio.paused) {
                 if (this.audio.currentTime === this.lastTime) {
                     this.stallCount++;
-                    if (this.stallCount > 5) { // 5 segundos sin avance
-                        console.warn("Watchdog: Flujo estancado, refrescando...");
+                    if (this.stallCount > 8) { // 8 segundos sin avance real
+                        console.warn("Watchdog: Señal estancada, forzando reinicio...");
                         this.handleError();
                     }
                 } else {
