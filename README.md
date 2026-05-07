@@ -79,3 +79,6 @@ Para que funcione la lectura de datos:
 ## Ano lectivo 2026
 
 Monterrey, Casanare, Colombia
+
+
+.\iniciar_web.bat
